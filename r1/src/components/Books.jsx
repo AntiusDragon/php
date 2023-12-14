@@ -7,7 +7,6 @@ export default function Books() {
 
   return (
     <div className="books">
-        <h1>Books Shop</h1>
         {
             books.map(book => 
                 <Book key={book.id} book={book} />)

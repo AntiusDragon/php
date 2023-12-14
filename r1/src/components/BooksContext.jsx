@@ -12,23 +12,35 @@ const typesUrl ='https://in3.dev/knygos/types/';
 export const BooksProvider = ({children}) => {
     
     const [books, setBooks] = useState(null)
+    const [types, setTypes] = useState(null)
     
     useEffect(() => {
         axios.get(booksUrl)
         .then(res => {
-            setBooks(res.data);
+            setBooks(res.data.map(b => ({...b, show: true})));
             console.log(res.data);
         })
-        // .catch(err => {
-        //     console.log(err);
-        // })
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+        axios.get(typesUrl)
+        .then(res => {
+            setTypes(res.data);
+            console.log(res.data);
+        })
+        },
+        3000);
     }, []);
     
     console.log(children);
 
     return (
         <BookContext.Provider value={{
-            books
+            books: books,
+            types,
+            setBooks,
+            setTypes,
         }}>
             {children}
         </BookContext.Provider>
