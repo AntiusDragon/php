@@ -5,24 +5,16 @@ $notWhite = '#222';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cb = $_POST['cb'] ?? [];
+    $_SESSION['count'] = count($cb);
 
-    // echo '<pre>';
-    // print_r($cb);
-    // die;
-    $count = count($cb);
-
-    header('Location: http://localhost/php/013/u9ws.php?count='. $count);
+    header('Location: http://localhost/php/013/u9ws.php');
     die;
-    
-    // foreach ($cb as $letter) {
-    //     $color = 'black';
-    //     echo $letter;
-    // }
 }
     
-if (isset($_GET['count'])) {
-    $count = $_GET['count'];
+if (isset($_SESSION['count'])) {
+    $count = $_SESSION['count'];
     $color = $notWhite;
+    unset($_SESSION['count']);
 } else {
     $color = 'black';
     $letters = range('A', 'J');
