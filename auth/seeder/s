@@ -1,3 +1,29 @@
 <?php
 
 echo "seeder started\n";
+
+ $users = [
+    [
+        'name' => 'Bredis',
+        'email' => 'briedis@gmail.com',
+        'password' => sha1('123'),
+    ],
+    [
+        'name' => 'Bebras',
+        'email' => 'bebras@gmail.com',
+        'password' => sha1('123'),
+    ],
+    [
+        'name' => 'Barsukas',
+        'email' => 'barsukas@gmail.com',
+        'password' => sha1('123'),
+    ],
+    [
+        'name' => 'Antanas',
+        'email' => 'antanasss@yahoo.com',
+        'password' => sha1('123'),
+    ],
+];
+file_put_contents(__DIR__ . '/../data/users.ser', serialize($users));
+
+echo "seeder finished\n";
