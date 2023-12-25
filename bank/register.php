@@ -31,6 +31,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $loginOn = false;
         }
     }
+    if ($_POST['firstName'] == '' || strlen($_POST['firstName']) < 2 || strlen($_POST['firstName']) > 40 ) {
+        $_SESSION['errorFirstName'] = 'errorFirstName';
+        $_SESSION['old_data'] = $_POST;
+        $loginOn = false;
+    } 
+    if ($_POST['lastName'] == '' || strlen($_POST['lastName']) < 2 || strlen($_POST['lastName']) > 40 ) {
+        $_SESSION['errorLastName'] = 'errorLastName';
+        $_SESSION['old_data'] = $_POST;
+        $loginOn = false;
+    } 
+    if ($_POST['presonalCode'] == '' || strlen($_POST['presonalCode']) !== 11 ) {
+        $_SESSION['errorPresonalCode'] = 'errorPresonalCode';
+        $_SESSION['old_data'] = $_POST;
+        $loginOn = false;
+    } 
+    if ($_POST['email'] == '') {
+        $_SESSION['errorEmail'] = 'errorEmail';
+        $_SESSION['old_data'] = $_POST;
+        $loginOn = false;
+    } 
     // tikrinama ar yra toks vartotojas?
     $users = file_get_contents(__DIR__.'/data/users.ser');
     $users = unserialize($users);
@@ -71,6 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
     unset($_SESSION['error']);
+}
+if (isset($_SESSION['errorFirstName'])) {
+    $errorFirstName = $_SESSION['errorFirstName'];
+    unset($_SESSION['errorFirstName']);
+}
+if (isset($_SESSION['errorLastName'])) {
+    $errorLastName = $_SESSION['errorLastName'];
+    unset($_SESSION['errorLastName']);
 }
 if (isset($_SESSION['errorPresonalCode'])) {
     $errorPresonalCode = $_SESSION['errorPresonalCode'];
@@ -114,8 +142,14 @@ if (isset($_SESSION['old_data'])) {
             <form action="" method="post" class="formaLoginRegister">
             <input type="text" name="firstName" placeholder="First name" 
                 value="<?= isset($old_data['firstName']) ? $old_data['firstName'] : '' ?>">
+                <?php if (isset($errorFirstName)): ?>
+                    <p style="color: red;"><?= $errorFirstName ?></p>
+                <?php endif ?>
             <input type="text" name="lastName" placeholder="Last Name" 
                 value="<?= isset($old_data['lastName']) ? $old_data['lastName'] : '' ?>">
+                <?php if (isset($errorLastName)): ?>
+                    <p style="color: red;"><?= $errorLastName ?></p>
+                <?php endif ?>
             <input type="test" name="presonalCode" placeholder="Personal Code">
                 <?php if (isset($errorPresonalCode)): ?>
                     <p style="color: red;"><?= $errorPresonalCode ?></p>
