@@ -1,0 +1,17 @@
+<?php
+
+echo "seeder started\n";
+
+ $users = [
+     [
+     'firstName' => 'Antius',
+     'lastName' => 'Dragon',
+     'presonalCode' => '29706143817',
+     'phone' => '+37060807899',
+     'email' => 'antanasss@yahoo.com',
+     'password' => sha1('123'),
+     ],
+];
+file_put_contents(__DIR__.'/data/users.ser', serialize($users));
+
+echo "seeder finished\n";
