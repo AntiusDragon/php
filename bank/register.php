@@ -74,28 +74,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $bankoSaskaita1 = '';
         $bankoSaskaita2 = '';
-        $bankoSaskaita5 = 9999;
-        for ($i=0; $i < $bankoSaskaita5; $i++) { 
-            $bankoSaskaita3 = rand(10, 99);
-            $bankoSaskaita4 = rand(1000, 9999);
-            $bankoSaskaita5 = $i;
+        $bankoSaskaita3 = '';
+        $bankoSaskaita4 = '';
+        $bankoSaskaita5 = '';
+        $bankoSaskaita11 = 1;
+        for ($i=0; $i < $bankoSaskaita11; $i++) { 
+            $bankoSaskaita6 = rand(10, 99);
+            // $bankoSaskaita7 = rand(1000, 9999);
+            // $bankoSaskaita8 = rand(1000, 9999);
+            $bankoSaskaita9 = rand(1000, 9999);
+            $bankoSaskaita10 = rand(1000, 9999);
             foreach ($users as $user) {
-                $bankoSaskaita1 = $bankoSaskaita3;
-                $bankoSaskaita2 = $bankoSaskaita4;
-                if ("LT$bankoSaskaita3 7044 0600 0772 $bankoSaskaita4" == $user['bankoSaskaita']) {
-                    $bankoSaskaita5 = 9999;
+                $bankoSaskaita1 = $bankoSaskaita6;
+                // $bankoSaskaita2 = $bankoSaskaita7;
+                // $bankoSaskaita3 = $bankoSaskaita8;
+                $bankoSaskaita4 = $bankoSaskaita9;
+                $bankoSaskaita5 = $bankoSaskaita10;
+                if ("LT$bankoSaskaita1 7044 0600 $bankoSaskaita4 $bankoSaskaita5" == $user['bankoSaskaita']) {
+                    $bankoSaskaita11 = $i + 1;
+                }
+            }
+        }
+        $userId = '';
+        $userIdFor = 1;
+        for ($i=0; $i < $userIdFor; $i++) { 
+            $userIdRand = rand(100000000);
+            foreach ($users as $user) {
+                $userId = $userIdRand;
+                if ($userIdRand == $user['userId']) {
+                    $userIdFor = $i + 1;
                 }
             }
         }
 
         $user = [
+            'userId' => $userId,
             'firstName' => $_POST['firstName'],
             'lastName' => $_POST['lastName'],
             'presonalCode' => $_POST['presonalCode'],
             'phone' => $_POST['phone'],
             'email' => $_POST['email'],
             'password' => sha1($_POST['password']),
-            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2",
+            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 $bankoSaskaita4 $bankoSaskaita5",
         ];
         $users[] = $user;
         file_put_contents(__DIR__.'/data/users.ser', serialize($users));

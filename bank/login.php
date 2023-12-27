@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user['email'] == $_POST['email']) {
             if ($user['password'] == sha1($_POST['password'])) {
                 $_SESSION['login'] = 'prijungtas';
+                $_SESSION['userId'] = $user['userId'];
                 $_SESSION['firstName'] = $user['firstName'];
                 $_SESSION['lastName'] = $user['lastName'];
                 $_SESSION['presonalCode'] = $user['presonalCode'];

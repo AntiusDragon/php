@@ -2,20 +2,7 @@
 session_start();
 $bankoSaskaitosSukurimas = file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSION['bankoSaskaita'].'.txt');
 
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['login'] = 'neprijungtas';
-    $_SESSION['userId'] = $user[''];
-    $_SESSION['firstName'] = $user[''];
-    $_SESSION['lastName'] = $user[''];
-    $_SESSION['presonalCode'] = $user[''];
-    $_SESSION['phone'] = $user[''];
-    $_SESSION['email'] = $user[''];
-    $_SESSION['bankoSaskaita'] = $user[''];
-    $_SESSION[''] = $user[''];
-    header('Location: http://localhost/php/bank/index.php');
-    die;
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -47,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p>Iš viso disponuojamų lėšų</p>
                     <p style="font-size: 2rem;"><?= $bankoSaskaitosSukurimas / 100 ?> eur</p>
                 </div>
-                <a href="mekejimas.php"></a>
-                <button type="submit" class="naujasMjolejimas">Naujas mokėjimas</button>
+                <button class="naujasMjolejimas">Naujas mokėjimas</button>
             </div>
             <table>
                 <thead>
