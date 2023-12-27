@@ -1,0 +1,86 @@
+body,
+body * {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 100vh;
+    background-image: url(../img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 3rem;
+}
+.meliuList {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.logout {
+    height: 2rem;
+}
+.main {
+    display: flex;
+    flex-direction: row;
+}
+.pagrindinisLaukas {
+    background-color: #fffa;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.5rem #000;
+    height: min-content;
+    width: calc(100% - 14rem);
+    margin: 2rem;
+    padding: 2rem;
+}
+.migtukuSarasas {
+    width: 10rem;
+    height: calc(100vh - 3rem);
+    background-color: #fffa;
+}
+.saskaitosLesai {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 0 1rem000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+}
+input {
+    width: 15rem;
+}
+.backMeniu {
+    /* color: red; */
+}
+.naujasMjolejimas {
+    bottom: auto;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    height: min-content;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
+table, th, td {
+    /* background-color: #fff9; */
+    border-collapse: collapse;
+    /* border: 2px solid #000; */
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+}
+td {
+    border-top: 1px solid #000;
+}

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['login']) && $_SESSION['login'] == 'prijungtas') {
-    header('Location: http://localhost/php/auth/index.php');
+    header('Location: http://localhost/php/bank/index.php');
     die;
 } // jei esu prisilogines, neleidzia eiti i login puslapi
 
@@ -72,6 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('Location: http://localhost/php/bank/register.php');
             die;
         }
+        $bankoSaskaita1 = '';
+        $bankoSaskaita2 = '';
+        $bankoSaskaita5 = 9999;
+        for ($i=0; $i < $bankoSaskaita5; $i++) { 
+            $bankoSaskaita3 = rand(10, 99);
+            $bankoSaskaita4 = rand(1000, 9999);
+            $bankoSaskaita5 = $i;
+            foreach ($users as $user) {
+                $bankoSaskaita1 = $bankoSaskaita3;
+                $bankoSaskaita2 = $bankoSaskaita4;
+                if ("LT$bankoSaskaita3 7044 0600 0772 $bankoSaskaita4" == $user['bankoSaskaita']) {
+                    $bankoSaskaita5 = 9999;
+                }
+            }
+        }
 
         $user = [
             'firstName' => $_POST['firstName'],
@@ -80,9 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'phone' => $_POST['phone'],
             'email' => $_POST['email'],
             'password' => sha1($_POST['password']),
+            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2",
         ];
         $users[] = $user;
         file_put_contents(__DIR__.'/data/users.ser', serialize($users));
+        file_put_contents("./data/saskaitos/LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2.txt", '1000');
+        echo "seeder started\n";
+        $bankoSaskaitosSukurimas = [
+            [
+            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2",
+            ],
+       ];
+       file_put_contents(__DIR__.'/data/users.ser', serialize($users));
+       echo "seeder finished\n";
         header('Location: http://localhost/php/bank/login.php');
         die;
     }
@@ -129,7 +154,7 @@ if (isset($_SESSION['old_data'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="./css/styleLoginRegister.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <main class="main">

@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['presonalCode'] = $user['presonalCode'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['email'] = $user['email'];
+                $_SESSION['bankoSaskaita'] = $user['bankoSaskaita'];
                 $_SESSION[''] = $user[''];
                 header('Location: http://localhost/php/bank/authorized.php');
                 die;
@@ -36,7 +37,7 @@ if (isset($_SESSION['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./css/styleLoginRegister.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <main class="main">

@@ -10,6 +10,7 @@ echo "seeder started\n";
      'phone' => '+37060807899',
      'email' => 'antanasss@yahoo.com',
      'password' => sha1('123'),
+     'bankoSaskaita' => 'LT28 7044 0600 0772 1324',
      ],
 ];
 file_put_contents(__DIR__.'/data/users.ser', serialize($users));
