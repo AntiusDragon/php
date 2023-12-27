@@ -4,13 +4,14 @@ echo "seeder started\n";
 
  $users = [
      [
+     'userId' => 942675916,
      'firstName' => 'Antius',
      'lastName' => 'Dragon',
      'presonalCode' => '29706143817',
      'phone' => '+37060807899',
      'email' => 'antanasss@yahoo.com',
      'password' => sha1('123'),
-     'bankoSaskaita' => 'LT28 7044 0600 0772 1324',
+     'bankoSaskaita' => 'LT28 7044 0600 0972 1324',
      ],
 ];
 file_put_contents(__DIR__.'/data/users.ser', serialize($users));

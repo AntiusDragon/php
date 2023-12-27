@@ -1,0 +1,16 @@
+[
+    {
+        "saskaita": "LT55 2439 6628 1793 8078",
+        "saskaitosLikutis": 1000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 1000,
+        "valiuta": "Eur"
+    },
+    {
+        "saskaita": "LT55 2439 6628 1793 8046",
+        "saskaitosLikutis": 10001,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 10001,
+        "valiuta": "Eur"
+    }
+]

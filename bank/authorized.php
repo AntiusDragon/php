@@ -1,20 +1,25 @@
 <?php
 session_start();
-$bankoSaskaitosSukurimas = file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSION['bankoSaskaita'].'.txt');
+$saskaitosSukurimas = json_decode(file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSION['userId'].'.json'), true);
 
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['login'] = 'neprijungtas';
-    $_SESSION['userId'] = $user[''];
-    $_SESSION['firstName'] = $user[''];
-    $_SESSION['lastName'] = $user[''];
-    $_SESSION['presonalCode'] = $user[''];
-    $_SESSION['phone'] = $user[''];
-    $_SESSION['email'] = $user[''];
-    $_SESSION['bankoSaskaita'] = $user[''];
-    $_SESSION[''] = $user[''];
-    header('Location: http://localhost/php/bank/index.php');
-    die;
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $_SESSION['login'] = 'neprijungtas';
+//     $_SESSION['userId'] = $user[''];
+//     $_SESSION['firstName'] = $user[''];
+//     $_SESSION['lastName'] = $user[''];
+//     $_SESSION['presonalCode'] = $user[''];
+//     $_SESSION['phone'] = $user[''];
+//     $_SESSION['email'] = $user[''];
+//     $_SESSION['bankoSaskaita'] = $user[''];
+//     $_SESSION[''] = $user[''];
+//     header('Location: http://localhost/php/bank/index.php');
+//     die;
+// }
+
+ 
+$saskaituSuma = 0;
+foreach ($saskaitosSukurimas as $saskaita) { 
+    $saskaituSuma += $saskaita['saskaitosLikutis'];
 }
 
 ?>
@@ -45,11 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div>
                     <p style="font-size: 1.5rem;">Banko sąskaitos</p>
                     <p>Iš viso disponuojamų lėšų</p>
-                    <p style="font-size: 2rem;"><?= $bankoSaskaitosSukurimas / 100 ?> eur</p>
+                    <p style="font-size: 2rem;">
+                        <?= number_format($saskaituSuma / 100, 2) ?> eur</p>
                 </div>
                 <a href="mekejimas.php"></a>
                 <button type="submit" class="naujasMjolejimas">Naujas mokėjimas</button>
             </div>
+
             <table>
                 <thead>
                     <tr>
@@ -60,31 +67,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <th>Valiuta</th>
                     </tr>
                 </thead>
+
                 <tbody>
+                    <?php foreach ($saskaitosSukurimas as $saskaita): ?>
                     <tr>
                         <td>
                             <div style="white-space: normal; text-align: left;">
                                 <span><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</span>
-                                <span><?= $_SESSION['bankoSaskaita'] ?></span>
+                                <span><?= $saskaita['saskaita'] ?></span>
                             </div>
                         </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td> </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td>Eur</td>
+                        <td><?= number_format($saskaita['saskaitosLikutis'] / 100, 2) ?></td>
+                        <td><?= number_format($saskaita['rezervuota'] / 100, 2) ?></td>
+                        <td><?= number_format($saskaita['disponuojamasLikutis'] / 100, 2) ?></td>
+                        <td><?= $saskaita['valiuta'] ?></td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div style="white-space: normal; text-align: left;">
-                                <span><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</span>
-                                <span><?= $_SESSION['bankoSaskaita'] ?></span>
-                            </div>
-                        </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td> </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td>Eur</td>
-                    </tr>
+                    <?php endforeach ?>
                 </tbody>
             </table>
         </div>

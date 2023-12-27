@@ -80,17 +80,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $bankoSaskaita11 = 1;
         for ($i=0; $i < $bankoSaskaita11; $i++) { 
             $bankoSaskaita6 = rand(10, 99);
-            // $bankoSaskaita7 = rand(1000, 9999);
-            // $bankoSaskaita8 = rand(1000, 9999);
+            $bankoSaskaita7 = rand(1000, 9999);
+            $bankoSaskaita8 = rand(1000, 9999);
             $bankoSaskaita9 = rand(1000, 9999);
             $bankoSaskaita10 = rand(1000, 9999);
             foreach ($users as $user) {
                 $bankoSaskaita1 = $bankoSaskaita6;
-                // $bankoSaskaita2 = $bankoSaskaita7;
-                // $bankoSaskaita3 = $bankoSaskaita8;
+                $bankoSaskaita2 = $bankoSaskaita7;
+                $bankoSaskaita3 = $bankoSaskaita8;
                 $bankoSaskaita4 = $bankoSaskaita9;
                 $bankoSaskaita5 = $bankoSaskaita10;
-                if ("LT$bankoSaskaita1 7044 0600 $bankoSaskaita4 $bankoSaskaita5" == $user['bankoSaskaita']) {
+                if ("LT$bankoSaskaita1 $bankoSaskaita2 $bankoSaskaita3 $bankoSaskaita4 $bankoSaskaita5" == $user['bankoSaskaita']) {
                     $bankoSaskaita11 = $i + 1;
                 }
             }
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userId = '';
         $userIdFor = 1;
         for ($i=0; $i < $userIdFor; $i++) { 
-            $userIdRand = rand(100000000);
+            $userIdRand = rand(100000000, 999999999);
             foreach ($users as $user) {
                 $userId = $userIdRand;
                 if ($userIdRand == $user['userId']) {
@@ -115,17 +115,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'phone' => $_POST['phone'],
             'email' => $_POST['email'],
             'password' => sha1($_POST['password']),
-            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 $bankoSaskaita4 $bankoSaskaita5",
+            'bankoSaskaita' => "LT$bankoSaskaita1 $bankoSaskaita2 $bankoSaskaita3 $bankoSaskaita4 $bankoSaskaita5",
         ];
         $users[] = $user;
         file_put_contents(__DIR__.'/data/users.ser', serialize($users));
-        file_put_contents("./data/saskaitos/LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2.txt", '1000');
-        echo "seeder started\n";
-        $bankoSaskaitosSukurimas = [
+        $saskaitosSukurimas = [
             [
-            'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2",
+                'saskaita' => "LT$bankoSaskaita1 $bankoSaskaita2 $bankoSaskaita3 $bankoSaskaita4 $bankoSaskaita5",
+                'saskaitosLikutis' => 1000,
+                'rezervuota' => 0,
+                'disponuojamasLikutis' => 1000,
+                'valiuta' => 'Eur',
             ],
-       ];
+        ];
+        file_put_contents(__DIR__."/data/saskaitos/$userId.json", json_encode($saskaitosSukurimas, JSON_PRETTY_PRINT));
+        echo "seeder started\n";
+    //     $bankoSaskaitosSukurimas = [
+    //         [
+    //         'bankoSaskaita' => "LT$bankoSaskaita1 7044 0600 0772 $bankoSaskaita2",
+    //         ],
+    //    ];
        file_put_contents(__DIR__.'/data/users.ser', serialize($users));
        echo "seeder finished\n";
         header('Location: http://localhost/php/bank/login.php');

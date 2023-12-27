@@ -49,7 +49,7 @@
                         <?= $box['amount'] ?>
                     </div>
                     <div class="col-8">
-                        <a href="http://localhost/php/crud/show.php?id<?= $box['boxId'] ?>" 
+                        <a href="http://localhost/php/crud/show.php?id=<?= $box['boxId'] ?>" 
                         class="btn btn-outline-success brtn-sm">Show</a>
                     </div>
                 </div>

@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['presonalCode'] = $user['presonalCode'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['email'] = $user['email'];
-                $_SESSION['bankoSaskaita'] = $user['bankoSaskaita'];
                 $_SESSION[''] = $user[''];
                 header('Location: http://localhost/php/bank/authorized.php');
                 die;
