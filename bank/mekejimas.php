@@ -1,6 +1,6 @@
 <?php
 session_start();
-$bankoSaskaitosSukurimas = file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSION['bankoSaskaita'].'.txt');
+$bankoSaskaitosSukurimas = file_get_contents(__DIR__.'/data/saskaitos.json');
 
 
 
@@ -28,57 +28,25 @@ $bankoSaskaitosSukurimas = file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSIO
             List...
         </div>
         <div class="pagrindinisLaukas" style="overflow-y: auto;">
-            <div class="saskaitosLesai">
-                <div>
-                    <p style="font-size: 1.5rem;">Banko sąskaitos</p>
-                    <p>Iš viso disponuojamų lėšų</p>
-                    <p style="font-size: 2rem;"><?= $bankoSaskaitosSukurimas / 100 ?> eur</p>
-                </div>
-                <button class="naujasMjolejimas">Naujas mokėjimas</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Banko sąskaita</th>
-                        <th>Sąskaitos likutis</th>
-                        <th>Rezervuota</th>
-                        <th>Disponuojamas likutis</th>
-                        <th>Valiuta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div style="white-space: normal; text-align: left;">
-                                <span><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</span>
-                                <span><?= $_SESSION['bankoSaskaita'] ?></span>
-                            </div>
-                        </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td> </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td>Eur</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="white-space: normal; text-align: left;">
-                                <span><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</span>
-                                <span><?= $_SESSION['bankoSaskaita'] ?></span>
-                            </div>
-                        </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td> </td>
-                        <td><?= $bankoSaskaitosSukurimas / 100 ?></td>
-                        <td>Eur</td>
-                    </tr>
-                </tbody>
-            </table>
+            <form action="./saskaitosPavedimas.php" method="post">
+                <!-- <p>Gavejo Vardas</p>
+                <input type="test" name="firstName" placeholder="First Name">
+                <p>Gavejo Pavardė</p>
+                <input type="text" name="lastName" placeholder="Last Name"> -->
+                <p>Gavėjo Saskaita</p>
+                <input type="text" name="klientoSaskaita" placeholder="Gavėjo Saskaita">
+                <p>Suma Eur</p>
+                <input type="number" name="sumaEur" placeholder="Suma Eur" step="0.01">
+                <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
+                <button class="naujasMokejimas" type="submit">Siusti</button>
+            </form>
+            <form action="./authorized.php">
+                <button class="naujasMokejimas" type="submit">Atgal</button>
+            </form>
+            <?php 
+                // echo $_GET['idSaskaita'] 
+            ?>
         </div>
-        <!-- <h3>PresonalCode: <?= $_SESSION['presonalCode'] ?></h3> -->
-        <!-- <h3>Phone: <?= $_SESSION['phone'] ?></h3> -->
-        <!-- <h3>Email: <?= $_SESSION['email'] ?></h3> -->
-
-        <!-- <a href="index.php">Go to main page</a> -->
     </main>
 
 </body>

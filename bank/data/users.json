@@ -1,0 +1,22 @@
+[
+    {
+        "userId": 942675916,
+        "firstName": "Antius",
+        "lastName": "Dragon",
+        "presonalCode": "29706143817",
+        "phone": "+37060806899",
+        "email": "antanasss@yahoo.com",
+        "password": "8a45c99fc694b0b16418f55afc22b82060fc1053",
+        "user": "adminass"
+    },
+    {
+        "userId": 354770720,
+        "firstName": "Antanas",
+        "lastName": "Urabanavicius",
+        "presonalCode": "39210193817",
+        "phone": "+37060807896",
+        "email": "antanasss@hotmail.com",
+        "password": "8a45c99fc694b0b16418f55afc22b82060fc1053",
+        "user": "user"
+    }
+]

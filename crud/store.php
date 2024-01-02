@@ -1,14 +1,16 @@
 <?php
+session_start();
 
-$boxId = rand(1000000, 9999999);
+$boxId = rand(10000000, 99999999);
 $amount = $_POST['amount'] ?? 0;
 
-$boxes = json_decode(file_get_contents(__DIR__ . '/data/boxes.json'),true);
+$boxes = json_decode(file_get_contents(__DIR__ . '/data/boxes.json'), true);
 $boxes[] = [
     'boxId' => $boxId,
-    'amount' => $amount,
+    'amount' => (int) $amount,
 ];
+file_put_contents(__DIR__ . '/data/boxes.json', json_encode($boxes, JSON_PRETTY_PRINT));
 
-file_get_contents(__DIR__ . '/data/boxes.json', json_decode($boxes, JSON_PRETTY_PRINT));
+$_SESSION['success'] = "Box #$boxId created";
 
 header('Location: http://localhost/php/crud/read.php');

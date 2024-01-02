@@ -1,25 +1,21 @@
 <?php
 session_start();
-$saskaitosSukurimas = json_decode(file_get_contents(__DIR__.'/data/saskaitos/'.$_SESSION['userId'].'.json'), true);
+if (!isset($_SESSION['login']) && $_SESSION['login'] !== 'prijungtas') {
+    header('Location: ./login.php');
+    $_SESSION['error'] = 'You need to log in';
+}
+$sukurtosSaskaitos = json_decode(file_get_contents(__DIR__.'/data/saskaitos.json'), true);
 
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $_SESSION['login'] = 'neprijungtas';
-//     $_SESSION['userId'] = $user[''];
-//     $_SESSION['firstName'] = $user[''];
-//     $_SESSION['lastName'] = $user[''];
-//     $_SESSION['presonalCode'] = $user[''];
-//     $_SESSION['phone'] = $user[''];
-//     $_SESSION['email'] = $user[''];
-//     $_SESSION['bankoSaskaita'] = $user[''];
-//     $_SESSION[''] = $user[''];
-//     header('Location: http://localhost/php/bank/index.php');
-//     die;
-// }
-
- 
 $saskaituSuma = 0;
-foreach ($saskaitosSukurimas as $saskaita) { 
-    $saskaituSuma += $saskaita['saskaitosLikutis'];
+foreach ($sukurtosSaskaitos as $saskaita) { 
+    if ($saskaita['userId'] == $_SESSION['userId']) {
+        $saskaituSuma += $saskaita['saskaitosLikutis'];
+    }
+}
+
+if (isset($_SESSION['error'])) {
+    $error  = $_SESSION['error'];
+    unset($_SESSION['error']);
 }
 
 ?>
@@ -35,10 +31,20 @@ foreach ($saskaitosSukurimas as $saskaita) {
 
     <header>
         <h1>Miau-bank</h1>
-        <form class="meliuList" action="logout.php" method="post">
+        <?php if (isset($error)): ?>
+            <h2 style="color: red;"><?= $error ?></h2>
+        <?php endif ?>
+        <div style="display: flex; gap: 0.5rem;">
             <div><?= $_SESSION['firstName'].' '.$_SESSION['lastName'] ?></div>
-            <button class="logout" type="submit">Logout</button>
-        </form>
+            <?php if ($_SESSION['user'] == 'adminass'): ?>
+            <form class="meliuList" action="admin.php" method="post">
+                <button class="logout naujasMokejimas" type="submit">Admin</button>
+            </form>
+            <?php endif ?>
+            <form class="meliuList" action="logout.php" method="post">
+                <button class="logout naujasMokejimas" type="submit">Logout</button>
+            </form>
+        </div>
     </header>
 
     <main class="main">
@@ -53,8 +59,9 @@ foreach ($saskaitosSukurimas as $saskaita) {
                     <p style="font-size: 2rem;">
                         <?= number_format($saskaituSuma / 100, 2) ?> eur</p>
                 </div>
-                <a href="mekejimas.php"></a>
-                <button type="submit" class="naujasMjolejimas">Naujas mokėjimas</button>
+                <!-- <form action="mekejimas.php" method="post">
+                    <button type="submit" class="naujasMokejimas">Naujas mokėjimas</button>
+                </form> -->
             </div>
 
             <table>
@@ -62,26 +69,36 @@ foreach ($saskaitosSukurimas as $saskaita) {
                     <tr>
                         <th>Banko sąskaita</th>
                         <th>Sąskaitos likutis</th>
-                        <th>Rezervuota</th>
-                        <th>Disponuojamas likutis</th>
+                        <!-- <th>Rezervuota</th> -->
+                        <!-- <th>Disponuojamas likutis</th> -->
                         <th>Valiuta</th>
+                        <th>Pavedimas</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($saskaitosSukurimas as $saskaita): ?>
+                    <?php foreach ($sukurtosSaskaitos as $saskaita): ?>
+                    <?php if ($saskaita['userId'] == $_SESSION['userId']): ?>
                     <tr>
                         <td>
                             <div style="white-space: normal; text-align: left;">
-                                <span><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</span>
+                                <span><b><?= $_SESSION['lastName'].' '.$_SESSION['firstName'] ?> Banko sąskaita</b></span>
                                 <span><?= $saskaita['saskaita'] ?></span>
                             </div>
                         </td>
                         <td><?= number_format($saskaita['saskaitosLikutis'] / 100, 2) ?></td>
-                        <td><?= number_format($saskaita['rezervuota'] / 100, 2) ?></td>
-                        <td><?= number_format($saskaita['disponuojamasLikutis'] / 100, 2) ?></td>
+                        <!-- <td><?= number_format($saskaita['rezervuota'] / 100, 2) ?></td> -->
+                        <!-- <td><?= number_format($saskaita['disponuojamasLikutis'] / 100, 2) ?></td> -->
                         <td><?= $saskaita['valiuta'] ?></td>
+                        <td>
+                            <form action="./mekejimas.php" method="get" value="<?= $saskaita['userId'] ?>">
+                                <input type="hidden" name="id" value="<?= $saskaita['userId'] ?>">
+                                <input type="hidden" name="idSaskaita" value="<?= $saskaita['saskaita'] ?>">
+                                <button type="submit" class="naujasMokejimas">Naujas mokėjimas</button>
+                            </form>
+                        </td>
                     </tr>
+                    <?php endif ?>
                     <?php endforeach ?>
                 </tbody>
             </table>

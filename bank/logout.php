@@ -10,5 +10,5 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === 'prijungtas') {
     unset($_SESSION['login']);
     unset($_SESSION['firstName']);
 }
-header('Location: http://localhost/php/bank/index.php');
+header('Location: ./index.php');
 die;

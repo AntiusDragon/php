@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $users = file_get_contents(__DIR__.'/data/users.ser');
-    $users = unserialize($users);
+    $users = json_decode(file_get_contents(__DIR__.'/data/users.json'), true);
+    // $users = file_get_contents(__DIR__.'/data/users.ser');
+    // $users = unserialize($users);
     foreach ($users as $user) {
         if ($user['email'] == $_POST['email']) {
             if ($user['password'] == sha1($_POST['password'])) {
@@ -13,14 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['presonalCode'] = $user['presonalCode'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['email'] = $user['email'];
-                $_SESSION[''] = $user[''];
-                header('Location: http://localhost/php/bank/authorized.php');
-                die;
+                $_SESSION['user'] = $user['user'];
+                if ($user['user'] == 'user') {
+                    header('Location: ./authorized.php');
+                    exit;
+                } else {
+                    if ($user['user'] == 'adminass') {
+                        header('Location: ./admin.php');
+                        exit;
+                    }
+                    header('Location: ./authorized.php');
+                    exit;
+                }
             }
         }
     }
     $_SESSION['error'] = 'Wrong email or password';
-    header('Location: http://localhost/php/bank/login.php');
+    header('Location: ./login.php');
     die;
 }
 
