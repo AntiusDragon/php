@@ -14,12 +14,12 @@
 <body>
 
     <main class="main">
-        <h1>Miau-bank</h1>
+        <h1>Celicija Bankas</h1>
 
         <div>
-            <a class="backMeniu" href="login.php">Login</a>
+            <a class="backMeniu" href="login.php">Prisijungti</a>
                 or
-            <a class="backMeniu" href="register.php">Register</a>
+            <a class="backMeniu" href="register.php">Registruotis</a>
         </div>
     </main>
 

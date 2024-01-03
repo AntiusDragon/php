@@ -15,9 +15,14 @@ $data = json_decode(file_get_contents(__DIR__ . "/data/saskaitos.json"));
 
 // print_r($data);
 
+if (0 > $sakiatosPliusSum) {
+    header('Location: ./admin.php');
+    $_SESSION['error'] =  'Klaida.';
+    die;
+}
 foreach ($data as $info) {
     if ($info->saskaita == $saskaitosNr ) {
-        $info->saskaitosLikutis += ($sakiatosPliusSum * 100);
+            $info->saskaitosLikutis += ($sakiatosPliusSum * 100);
     }
 }
 // echo '<br>';

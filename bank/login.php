@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     }
-    $_SESSION['error'] = 'Wrong email or password';
+    $_SESSION['error'] = 'Netinkamas El. pašto adresas arba Slaptažodis.';
     header('Location: ./login.php');
     die;
 }
@@ -47,24 +47,24 @@ if (isset($_SESSION['error'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Prisijungti</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <main class="main">
-        <h1>Login</h1>
+        <h1>Prisijungti</h1>
 
         <?php if (isset($error)): ?>
             <h1 style="color: red;"><?= $error ?></h1>
         <?php endif ?>
 
         <form action="" method="post" class="formaLoginRegister">
-            <input type="text" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
-            <button type="submit">Login</button>
+            <input type="text" name="email" placeholder="El. paštas">
+            <input type="password" name="password" placeholder="Slaptažodis">
+            <button type="submit">Prisijungti</button>
         </form>
-        <a class="backMeniu" href="index.php">Go to Meniu</a>
-        <a class="backMeniu" href="register.php">I don't have an account</a>
+        <a class="backMeniu" href="index.php">Grįžti į pagrindinį puslapį</a>
+        <a class="backMeniu" href="register.php">Neturiu paskyros</a>
     </main>
 </body>
 </html>

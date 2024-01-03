@@ -1,6 +1,7 @@
 [
     {
         "userId": 942675916,
+        "delete": true,
         "saskaita": "LT242024970614169210",
         "saskaitosLikutis": 0,
         "rezervuota": 0,
@@ -9,6 +10,7 @@
     },
     {
         "userId": 354770720,
+        "delete": false,
         "saskaita": "LT24202445513896",
         "saskaitosLikutis": 0,
         "rezervuota": 0,

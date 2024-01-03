@@ -16,13 +16,13 @@
 </head>
 <body>
     <main>
-        <h1>Plius</h1>
+        <h1>Padidinti sąskaitos sumą</h1>
         <div>
-            <a href="./admin.php">Cancel</a>
+            <a href="./admin.php">Atšaukti</a>
             <form action="./saskaitosPridejimas.php" method="post">
                 <input type="number" name="saskaitosPlius" step="0.01">
                 <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
-                <button type="submit">Prideti</button>
+                <button type="submit">Padidinti sąskaitos sumą</button>
             </form>
             <?php echo $_GET['idSaskaita'] ?>
         </div>

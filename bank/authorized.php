@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['login']) && $_SESSION['login'] !== 'prijungtas') {
     header('Location: ./login.php');
-    $_SESSION['error'] = 'You need to log in';
+    $_SESSION['error'] = 'Jums reikia prisijungti.';
 }
 $sukurtosSaskaitos = json_decode(file_get_contents(__DIR__.'/data/saskaitos.json'), true);
 
@@ -30,7 +30,7 @@ if (isset($_SESSION['error'])) {
 <body>
 
     <header>
-        <h1>Miau-bank</h1>
+        <h1>Celicija Bankas</h1>
         <?php if (isset($error)): ?>
             <h2 style="color: red;"><?= $error ?></h2>
         <?php endif ?>
@@ -38,11 +38,11 @@ if (isset($_SESSION['error'])) {
             <div><?= $_SESSION['firstName'].' '.$_SESSION['lastName'] ?></div>
             <?php if ($_SESSION['user'] == 'adminass'): ?>
             <form class="meliuList" action="admin.php" method="post">
-                <button class="logout naujasMokejimas" type="submit">Admin</button>
+                <button class="logout naujasMokejimas" type="submit">Administratorius</button>
             </form>
             <?php endif ?>
             <form class="meliuList" action="logout.php" method="post">
-                <button class="logout naujasMokejimas" type="submit">Logout</button>
+                <button class="logout naujasMokejimas" type="submit">Atsijungti</button>
             </form>
         </div>
     </header>
@@ -78,7 +78,7 @@ if (isset($_SESSION['error'])) {
 
                 <tbody>
                     <?php foreach ($sukurtosSaskaitos as $saskaita): ?>
-                    <?php if ($saskaita['userId'] == $_SESSION['userId']): ?>
+                    <?php if ($saskaita['userId'] == $_SESSION['userId'] && $saskaita['delete'] == false): ?>
                     <tr>
                         <td>
                             <div style="white-space: normal; text-align: left;">

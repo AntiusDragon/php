@@ -10,25 +10,25 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 'prijungtas') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $loginOn = true;
     if ($_POST['password'] == '') {
-        $_SESSION['errorPassword'] = 'Passwords error';
+        $_SESSION['errorPassword'] = 'Negali būti tuščias laukelis.';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     } else if (!(5 < strlen($_POST['password']) && strlen($_POST['password']) < 41)) {
-        $_SESSION['errorPassword'] = 'Passwords simbol min 6, max 41';
+        $_SESSION['errorPassword'] = 'Slaptažodžio simbolių skaičius turi būti ne mažiau kaip 6, bet ne daugiau kaip 41.';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     } else if ($_POST['password'] != $_POST['password2']) {
-        $_SESSION['errorPassword'] = 'Passwords do not match';
+        $_SESSION['errorPassword'] = 'Nesutampa kodai.';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     }
     if (substr($_POST['phone'], 0, 4) !== '+370') {
-        $_SESSION['errorPhone'] = 'Invalid phone number format "+370"';
+        $_SESSION['errorPhone'] = 'Teisingas telefono numerio formatas yra "+370".';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     } else {
         if (strlen($_POST['phone']) !== 12) {
-            $_SESSION['errorPhone'] = 'Invalid phone number format';
+            $_SESSION['errorPhone'] = 'Neteisingas telefono numerio formatas';
             $_SESSION['old_data'] = $_POST;
             $loginOn = false;
         }
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if (preg_match('/^[A-Za-z\s]+$/', $_POST['firstName'])) {
         if ($_POST['firstName'] == '' || strlen($_POST['firstName']) < 2 || strlen($_POST['firstName']) > 40 ) {
-            $_SESSION['errorFirstName'] = 'error FirstName';
+            $_SESSION['errorFirstName'] = 'Blogai įrašėte savo vardą.';
             $_SESSION['old_data'] = $_POST;
             $loginOn = false;
         } 
@@ -46,20 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (preg_match('/^[A-Za-z\s]+$/', $_POST['lastName'])) {
         if ($_POST['lastName'] == '' || strlen($_POST['lastName']) < 2 || strlen($_POST['lastName']) > 40 ) {
-            $_SESSION['errorLastName'] = 'error LastName';
+            $_SESSION['errorLastName'] = 'Blogai įrašėte savo pavardę.';
             $_SESSION['old_data'] = $_POST;
             $loginOn = false;
         }
     } else {
-        $_SESSION['errorLastName'] = "There must be only letters.";
+        $_SESSION['errorLastName'] = "Turi būti tik raidės.";
     }
     if (!validPersonalCode($_POST['presonalCode'])) {
-        $_SESSION['errorPresonalCode'] = 'error PresonalCode';
+        $_SESSION['errorPresonalCode'] = 'Blogai įvedėte savo asmens kodą.';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     }
     if ($_POST['email'] == '') {
-        $_SESSION['errorEmail'] = 'errorEmail';
+        $_SESSION['errorEmail'] = 'Blogai įvedėte savo El. paštą.';
         $_SESSION['old_data'] = $_POST;
         $loginOn = false;
     }
@@ -70,17 +70,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // $users = unserialize($users);
         foreach ($users as $user) {
             if ($user['email'] == $_POST['email']) {
-                $_SESSION['errorEmail'] = 'User with this email already exists';
+                $_SESSION['errorEmail'] = 'Toks elektroninis paštas egzistuoja.';
                 $_SESSION['old_data'] = $_POST;
                 $loginOn = false;
             }
             if ($user['presonalCode'] == $_POST['presonalCode']) {
-                $_SESSION['errorPresonalCode'] = 'Error presonalCode';
+                $_SESSION['errorPresonalCode'] = 'Toks asmens kodas egzistuoja.';
                 $_SESSION['old_data'] = $_POST;
                 $loginOn = false;
             }
             if ($user['phone'] == $_POST['phone']) {
-                $_SESSION['errorPhone'] = 'Phone with this exists';
+                $_SESSION['errorPhone'] = 'Toks telefono numeris egzistuoja.';
                 $_SESSION['old_data'] = $_POST;
                 $loginOn = false;
             }
@@ -143,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // file_put_contents(__DIR__.'/data/users.ser', serialize($users));
         $sukurtaSaskaita = [
                 'userId' => $userId,
+                "delete" => false,
                 'saskaita' => "LT242024$bankoSaskaita3$bankoSaskaita4$bankoSaskaita5",
                 'saskaitosLikutis' => 1000,
                 'rezervuota' => 0,
@@ -189,7 +190,7 @@ if (isset($_SESSION['old_data'])) {
 
 <body>
     <main class="main">
-        <h1>Register to Fores</h1>
+        <h1>Registracija</h1>
 
         <?php if (isset($error)): ?>
         <h2 style="color: red;"><?= $error ?></h2>
@@ -200,96 +201,64 @@ if (isset($_SESSION['old_data'])) {
                 // $newAccInfoList = ['firstName', 'lastName', 'presonalCode', 'phone', 'email', 'password', 'password2'];
                 $newAccInfoList = [
                     [
-                        'firstName',
-                        'errorFirstName',
-                        'first Name',
+                        'typas' => 'text',
+                        'name' => 'firstName',
+                        'erroras' => 'errorFirstName',
+                        'atvaizduojama' => 'Vardas',
                     ],
                     [
-                        'lastName',
-                        'errorLastName',
-                        'last Name',
+                        'typas' => 'text',
+                        'name' => 'lastName',
+                        'erroras' => 'errorLastName',
+                        'atvaizduojama' => 'Pavardė',
                     ],
                     [
-                        'presonalCode',
-                        'errorPresonalCode',
-                        'Presonal Code',
+                        'typas' => 'number',
+                        'name' => 'presonalCode',
+                        'erroras' => 'errorPresonalCode',
+                        'atvaizduojama' => 'Asmens kodas',
                     ],
                     [
-                        'phone',
-                        'errorPhone',
-                        'Phone',
+                        'typas' => 'phone',
+                        'name' => 'phone',
+                        'erroras' => 'errorPhone',
+                        'atvaizduojama' => 'Telefonas',
                     ],
                     [
-                        'email',
-                        'errorEmail',
-                        'Email',
+                        'typas' => 'email',
+                        'name' => 'email',
+                        'erroras' => 'errorEmail',
+                        'atvaizduojama' => 'El. paštas',
                     ],
                     [
-                        'password',
-                        'errorPassword',
-                        'Password',
+                        'typas' => 'password',
+                        'name' => 'password',
+                        'erroras' => 'errorPassword',
+                        'atvaizduojama' => 'Slaptažodis',
                     ],
                     [
-                        'password2',
-                        'errorPassword',
-                        'Repeat Password',
+                        'typas' => 'password',
+                        'name' => 'password2',
+                        'erroras' => 'errorPassword',
+                        'atvaizduojama' => 'Pakartokite slaptažodį',
                     ]
                 ];
                 foreach ($newAccInfoList as $newAccInfo):
             ?>
 
-                <!-- <input type="text" name="<?= $newAccInfo[0] ?>" placeholder="<?= $newAccInfo[2] ?>"
-                    value="<?= isset($old_data[$newAccInfo[0]]) ? $old_data[$newAccInfo[0]] : '' ?>">
-                <?php if (isset(${$newAccInfo[1]})): ?>
-                <p style="color: red;"><?= ${$newAccInfo[1]} ?></p>
-                <?php endif ?> -->
+                <input type="<?= $newAccInfo['typas'] ?>" name="<?= $newAccInfo['name'] ?>" placeholder="<?= $newAccInfo['atvaizduojama'] ?>"
+                    value="<?= isset($old_data[$newAccInfo['name']]) ? $old_data[$newAccInfo['name']] : '' ?>">
+                <?php if (isset(${$newAccInfo['erroras']})): ?>
+                <p style="color: red;"><?= ${$newAccInfo['erroras']} ?></p>
+                <?php endif ?>
 
             <?php endforeach ?>
 
-            <input type="text" name="firstName" placeholder="First Name"
-                value="<?= isset($old_data['firstName']) ? $old_data['firstName'] : '' ?>">
-            <?php if (isset($errorFirstName)): ?>
-            <p style="color: red;"><?= $errorFirstName ?></p>
-            <?php endif ?>
-
-            <input type="text" name="lastName" placeholder="Last Name"
-                value="<?= isset($old_data['lastName']) ? $old_data['lastName'] : '' ?>">
-            <?php if (isset($errorLastName)): ?>
-            <p style="color: red;"><?= $errorLastName ?></p>
-            <?php endif ?>
-
-            <input type="test" name="presonalCode" placeholder="Personal Code">
-            <?php if (isset($errorPresonalCode)): ?>
-            <p style="color: red;"><?= $errorPresonalCode ?></p>
-            <?php endif ?>
-
-            <input type="phone" name="phone" placeholder="Phone"
-                value="<?= isset($old_data['phone']) ? $old_data['phone'] : '' ?>">
-            <?php if (isset($errorPhone)): ?>
-            <p style="color: red;"><?= $errorPhone ?></p>
-            <?php endif ?>
-
-            <input type="text" name="email" placeholder="Email"
-                value="<?= isset($old_data['email']) ? $old_data['email'] : '' ?>">
-            <?php if (isset($errorEmail)): ?>
-            <p style="color: red;"><?= $errorEmail ?></p>
-            <?php endif ?>
-
-            <input type="password" name="password" placeholder="Password">
-            <?php if (isset($errorPassword)): ?>
-            <p style="color: red;"><?= $errorPassword ?></p>
-            <?php endif ?>
-
-            <input type="password" name="password2" placeholder="Repeat Password">
-            <?php if (isset($errorPassword)): ?>
-            <p style="color: red;"><?= $errorPassword ?></p>
-            <?php endif ?>
-
-            <button type="submit">Register</button>
+            <button type="submit">Registruotis</button>
 
         </form>
-        <a class="backMeniu" href="index.php">Go to Meniu</a>
-        <a class="backMeniu" href="login.php">I have an account</a>
+        <a class="backMeniu" href="index.php">Grįžti į pagrindinį puslapį</a>
+        <a class="backMeniu" href="login.php">Turiu paskyrą</a>
     </main>
 </body>
 

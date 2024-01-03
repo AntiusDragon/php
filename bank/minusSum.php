@@ -16,13 +16,13 @@
 </head>
 <body>
     <main>
-        <h1>Minus</h1>
+        <h1>Sumažinti sąskaitos sumą</h1>
         <div>
-            <a href="./admin.php">Cancel</a>
+            <a href="./admin.php">Atšaukti</a>
             <form action="./saskaitosMinusavimas.php" method="post">
                 <input type="number" name="saskaitosMin" step="0.01">
                 <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
-                <button type="submit">Atimti</button>
+                <button type="submit">Sumažinti sąskaitos sumą</button>
             </form>
             <?php 
                 // echo $_GET['idSaskaita'] 
