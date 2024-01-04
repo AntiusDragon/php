@@ -3,7 +3,35 @@
 class Bebras {
     public $spalva = 'rudas';
     private $svoris = 'nezinomas'; // dar nepasverem
-    private $ugis = 1.5; // metais
+    private $ugis = 1.0; // metais
+
+    public function __construct() { // atcpausdina pradžioje
+        echo '<br>Bebras atėjo<br>';
+    }
+    public function __destruct() { // atcpausdina pabaigoje
+        echo '<br>Bebras išėjo<br>';
+    }
+
+    public function __toString(): string {
+        return "<br>Bebras spalvos: $this->spalva, ugis: $this->ugis, svoris: $this->svoris<br>";
+    }
+
+    public function  __invoke() {
+        echo '<br>Brebras sako:<br>';
+        echo 'Labas<br>';
+    }
+
+    public function __serialize(): array {
+        return [
+            'ugis' => $this->ugis,
+            'svoris' => $this->svoris,
+        ];
+    }
+
+    public function __unserialize(array $data): void {
+        $this->ugis = $data['ugis'] * 2;
+        $this->svoris = $data['svoris'];
+    }
 
     public function __get($prop) {
         return match($prop) {
