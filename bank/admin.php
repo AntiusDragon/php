@@ -6,6 +6,7 @@ if (!isset($_SESSION['login']) && $_SESSION['login'] !== 'prijungtas' || $_SESSI
 }
 
 $sukurtosSaskaitos = json_decode(file_get_contents(__DIR__.'/data/saskaitos.json'), true);
+$vartotojai = json_decode(file_get_contents(__DIR__ . '/data/users.json'), true);
  
 $saskaituSuma = 0;
 foreach ($sukurtosSaskaitos as $saskaita) { 
@@ -17,21 +18,31 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 
+if (isset($_SESSION['allOk'])) {
+    $allOk = $_SESSION['allOk'];
+    unset($_SESSION['allOk']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administratorius</title>
     <link rel="stylesheet" href="./css/styleAuthorized.css">
 </head>
+
 <body>
 
     <header>
         <h1>Celicija Bankas</h1>
         <?php if (isset($error)): ?>
-            <h2 style="color: red;"><?= $error ?></h2>
+        <h2 style="color: red;"><?= $error ?></h2>
+        <?php endif ?>
+        <?php if (isset($allOk)): ?>
+        <h2 style="color: green;"><?= $allOk ?></h2>
         <?php endif ?>
         <div style="display: flex; gap: 0.5rem;">
             <div><?= $_SESSION['firstName'].' '.$_SESSION['lastName'] ?></div>
@@ -46,7 +57,43 @@ if (isset($_SESSION['error'])) {
 
     <main class="main">
         <div class="migtukuSarasas">
-            List...
+            <!-- <form action="./delete.php" method="get">
+                <input type="hidden" name="id" value="<?= $saskaita['userId'] ?>">
+                <input type="hidden" name="idSaskaita" value="<?= $saskaita['saskaita'] ?>">
+                <button class="naujasMokejimas" type="submit">Vartotojo kurimas</button>
+            </form> -->
+            <form action="" method="get">
+                <div>
+                    <!-- <form action="./admin.php" method="get">
+                        <div>
+                            <label for="lastName">11</label>
+                            <select name="sort">
+                                <label for="">Rūšiuoti pagal</label>
+                                <option value="default" <?= ($_GET['sort'] ?? '') == 'default' ? 'selected' : '' ?>>Nerušiotas</option>
+                                <option value="lastName_asc" <?= ($_GET['sort'] ?? '') == 'lastName_asc' ? 'selected' : '' ?>>Vartotojo pavardė A-Z</option>
+                                <option value="lastName_desc" <?= ($_GET['sort'] ?? '') == 'lastName_desc' ? 'selected' : '' ?>>Vartotojo pavardė Z-A</option> -->
+                                <!-- <option value="id_asc" <?= ($_GET['sort'] ?? '') == 'id_asc' ? 'selected' : '' ?>>Sąskaitoslikutis 1-9</option> -->
+                                <!-- <option value="id_desc" <?= ($_GET['sort'] ?? '') == 'id_desc' ? 'selected' : '' ?>>Sąskaitos likutis 9-1</option> -->
+                            <!-- </select>
+                        </div>
+                        <button type="submit">Pasirinkti</button>
+                    </form> -->
+                    <form action="http://localhost/php/bank/admin.php" method="get">
+                        <div>
+                            <label for="userId">Rūšiuoti pagal</label>
+                            <select class="form-select" name="sort">
+                                <option value="default" <?= ($_GET['sort'] ?? '') == 'default' ? 'selected' : '' ?>>Default</option>
+                                <option value="userId_asc" <?= ($_GET['sort'] ?? '') == 'userId_asc' ? 'selected' : '' ?> >Vartotojo ID 1-9</option>
+                                <option value="userId_desc" <?= ($_GET['sort'] ?? '') == 'userId_desc' ? 'selected' : '' ?> >Vartotojo ID 9-1</option>
+                                <option value="id_asc" <?= ($_GET['sort'] ?? '') == 'id_asc' ? 'selected' : '' ?>>Sąskaitoslikutis 1-9</option>
+                                <option value="id_desc" <?= ($_GET['sort'] ?? '') == 'id_desc' ? 'selected' : '' ?>>Sąskaitos likutis 9-1</option>
+                            </select>
+                        </div>
+                        <button type="submit" >Rūšiuoti</button>
+                        <a href="http://localhost/php/bank/admin.php">Išvalyti</a>
+                </form>
+                </div>
+            </form>
         </div>
         <div class="pagrindinisLaukas" style="overflow-y: auto;">
             <table>
@@ -56,22 +103,30 @@ if (isset($_SESSION['error'])) {
                         <th>Sąskaitos likutis</th>
                         <th>Valiuta</th>
                         <th></th>
-                        <!-- <th></th> -->
                     </tr>
                 </thead>
-                
+
                 <tbody>
+                    <?php
+                        if (isset($_GET['sort'])) {
+                            match($_GET['sort']) {
+                                // 'lastName_asc' => usort($vartotojai, fn($a, $b) => $a['lastName'] <=> $b['lastName']),
+                                // 'lastName_desc' => usort($vartotojai, fn($a, $b) => $b['lastName'] <=> $a['lastName']),
+                                'userId_asc' => usort($sukurtosSaskaitos, fn($a, $b) => $a['userId'] <=> $b['userId']),
+                                'userId_desc' => usort($sukurtosSaskaitos, fn($a, $b) => $b['userId'] <=> $a['userId']),
+                                'id_asc' => usort($sukurtosSaskaitos, fn($a, $b) => $a['saskaitosLikutis'] <=> $b['saskaitosLikutis']),
+                                'id_desc' => usort($sukurtosSaskaitos, fn($a, $b) => $b['saskaitosLikutis'] <=> $a['saskaitosLikutis']),
+                                default => $sukurtosSaskaitos,
+                            };
+                        }
+                    ?>
                     <?php foreach ($sukurtosSaskaitos as $saskaita): ?>
                     <tr>
                         <td>
                             <div style="white-space: normal; text-align: left; color: <?= $saskaita['delete'] == true ? 'red'  : 'black' ?>;">
-                                <?php $vartotojai = json_decode(file_get_contents(__DIR__ . '/data/users.json'), true);
-                                // <?php $vartotojai = file_get_contents(__DIR__ . '/data/users.ser');
-                                        // $vartotojai = unserialize($vartotojai);
-                                        foreach ($vartotojai as $vartotojas): ?>
+                                <?php foreach ($vartotojai as $vartotojas): ?>
                                 <?php if ($vartotojas['userId'] == $saskaita['userId']): ?>
-                                    <span><b><?= $vartotojas['lastName'].' '.$vartotojas['firstName'] ?> Banko sąskaita</b>
-                                </span>
+                                    <span><b><?= $vartotojas['lastName'].' '.$vartotojas['firstName'] ?> Banko sąskaita</b></span>
                                 <?php endif ?>
                                 <?php endforeach ?>
                                 <span><?= $saskaita['saskaita'] ?></span>
@@ -109,4 +164,5 @@ if (isset($_SESSION['error'])) {
     </main>
 
 </body>
+
 </html>

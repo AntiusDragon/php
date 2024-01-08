@@ -27,14 +27,18 @@
                 <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
                 <button type="submit">Atkurti sąskaitą</button>
             </form>
-            <form action="./klientaDelete.php" method="post">
+            <form action="./saskaitosSukurimas.php" method="post">
+                <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
+                <button type="submit">Prideti nauja sąskaitą</button>
+            </form>
+            <!-- <form action="./klientaDelete.php" method="post">
                 <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
                 <button type="submit">Trinti klientą</button>
-            </form>
-            <form action="./klientaDelete.php" method="post">
+            </form> -->
+            <!-- <form action="./klientaDelete.php" method="post">
                 <input type="hidden" name="saskaitosNr" value="<?= $_GET['idSaskaita'] ?>">
                 <button type="submit">Atkurti klientą</button>
-            </form>
+            </form> -->
             <?php 
                 // echo $_GET['idSaskaita'] 
                 ?>

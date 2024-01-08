@@ -46,6 +46,12 @@ foreach ($data as $info) {
     }
 }
 
+if ($klientasGavo == false) {
+    header('Location: ./authorized.php');
+    $_SESSION['error'] = 'Sistemos klaida';
+    exit;
+}
+
 if ($klientasGavo == true) {
     foreach ($data as $info) {
         if ($info->saskaita == $saskaitosNr) {
@@ -59,10 +65,12 @@ if ($klientasGavo == true) {
 }
 // echo '<br>';
 // print_r($data);
-if ($klientasGavo == true || $savininkasMinusavo == true) {
+if ($savininkasMinusavo == true) {
     $data = json_encode($data, JSON_PRETTY_PRINT);
     file_put_contents(__DIR__ . '/data/saskaitos.json', $data);
     header('Location: ./authorized.php');
+    $_SESSION['allOk'] = "Iš $saskaitosNr buvo pervesta $sumaEur eur į $klientoSaskaita.";
+    exit;
 } else {
     header('Location: ./authorized.php');
     $_SESSION['error'] = 'Sistemos klaida';

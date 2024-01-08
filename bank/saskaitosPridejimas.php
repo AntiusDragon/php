@@ -31,4 +31,6 @@ $data = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents(__DIR__ . "/data/saskaitos.json", $data);
 
 header('Location: ./admin.php');
+
+$_SESSION['allOk'] = "Sąskaita $saskaitosNr buvo papildita $sakiatosPliusSum eur.";
 exit;

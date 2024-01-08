@@ -14,8 +14,14 @@ foreach ($sukurtosSaskaitos as $saskaita) {
 }
 
 if (isset($_SESSION['error'])) {
-    $error  = $_SESSION['error'];
+    $error = $_SESSION['error'];
     unset($_SESSION['error']);
+}
+
+
+if (isset($_SESSION['allOk'])) {
+    $allOk = $_SESSION['allOk'];
+    unset($_SESSION['allOk']);
 }
 
 ?>
@@ -33,6 +39,9 @@ if (isset($_SESSION['error'])) {
         <h1>Celicija Bankas</h1>
         <?php if (isset($error)): ?>
             <h2 style="color: red;"><?= $error ?></h2>
+        <?php endif ?>
+        <?php if (isset($allOk)): ?>
+            <h2 style="color: green;"><?= $allOk ?></h2>
         <?php endif ?>
         <div style="display: flex; gap: 0.5rem;">
             <div><?= $_SESSION['firstName'].' '.$_SESSION['lastName'] ?></div>

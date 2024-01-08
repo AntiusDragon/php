@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sukurtosSaskaitos = json_decode(file_get_contents(__DIR__ . '/data/saskaitos.json'), true);
         // $sukurtosSaskaitos = json_decode($sukurtosSaskaitos, true); // Konvertuojame eilutę į masyvą
         // require __DIR__ . '/registracija/registerChecking.php';
-        $bankoSaskaita1 = '';
-        $bankoSaskaita2 = '';
+        // $bankoSaskaita1 = '';
+        // $bankoSaskaita2 = '';
         $bankoSaskaita3 = '';
         $bankoSaskaita4 = '';
         $bankoSaskaita5 = '';
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         for ($i=0; $i < $bankoSaskaita11; $i++) { 
             // $bankoSaskaita6 = rand(10, 99);
             // $bankoSaskaita7 = rand(1000, 9999);
-            // $bankoSaskaita8 = rand(1000, 9999);
+            $bankoSaskaita8 = rand(1000, 9999);
             $bankoSaskaita9 = rand(1000, 9999);
             $bankoSaskaita10 = rand(1000, 9999);
             foreach ($sukurtosSaskaitos as $sukurtaSaskaita) {
