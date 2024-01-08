@@ -16,7 +16,13 @@ $data = json_decode(file_get_contents(__DIR__ . "/data/saskaitos.json"));
 
 foreach ($data as $info) {
     if ($info->saskaita == $saskaitosNr ) {
+        if ($info->saskaitosLikutis == 0) {
             $info->delete = true;
+        } else {
+            header('Location: ./admin.php');
+            $_SESSION['error'] = "Sąskaitos negalima trinti nes yra likutis " . number_format($info->saskaitosLikutis / 100, 2) . " $info->valiuta.";
+            die;
+        }
     }
 }
 // echo '<br>';

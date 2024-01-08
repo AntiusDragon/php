@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'userId' => $userId,
                 "delete" => false,
                 'saskaita' => "LT242024$bankoSaskaita3$bankoSaskaita4$bankoSaskaita5",
-                'saskaitosLikutis' => 1000,
+                'saskaitosLikutis' => 0,
                 'rezervuota' => 0,
                 'disponuojamasLikutis' => 0,
                 'valiuta' => 'Eur',

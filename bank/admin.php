@@ -57,28 +57,9 @@ if (isset($_SESSION['allOk'])) {
 
     <main class="main">
         <div class="migtukuSarasas">
-            <!-- <form action="./delete.php" method="get">
-                <input type="hidden" name="id" value="<?= $saskaita['userId'] ?>">
-                <input type="hidden" name="idSaskaita" value="<?= $saskaita['saskaita'] ?>">
-                <button class="naujasMokejimas" type="submit">Vartotojo kurimas</button>
-            </form> -->
             <form action="" method="get">
                 <div>
-                    <!-- <form action="./admin.php" method="get">
-                        <div>
-                            <label for="lastName">11</label>
-                            <select name="sort">
-                                <label for="">Rūšiuoti pagal</label>
-                                <option value="default" <?= ($_GET['sort'] ?? '') == 'default' ? 'selected' : '' ?>>Nerušiotas</option>
-                                <option value="lastName_asc" <?= ($_GET['sort'] ?? '') == 'lastName_asc' ? 'selected' : '' ?>>Vartotojo pavardė A-Z</option>
-                                <option value="lastName_desc" <?= ($_GET['sort'] ?? '') == 'lastName_desc' ? 'selected' : '' ?>>Vartotojo pavardė Z-A</option> -->
-                                <!-- <option value="id_asc" <?= ($_GET['sort'] ?? '') == 'id_asc' ? 'selected' : '' ?>>Sąskaitoslikutis 1-9</option> -->
-                                <!-- <option value="id_desc" <?= ($_GET['sort'] ?? '') == 'id_desc' ? 'selected' : '' ?>>Sąskaitos likutis 9-1</option> -->
-                            <!-- </select>
-                        </div>
-                        <button type="submit">Pasirinkti</button>
-                    </form> -->
-                    <form action="http://localhost/php/bank/admin.php" method="get">
+                    <form action="./admin.php" method="get">
                         <div>
                             <label for="userId">Rūšiuoti pagal</label>
                             <select class="form-select" name="sort">
@@ -90,7 +71,7 @@ if (isset($_SESSION['allOk'])) {
                             </select>
                         </div>
                         <button type="submit" >Rūšiuoti</button>
-                        <a href="http://localhost/php/bank/admin.php">Išvalyti</a>
+                        <a href="./admin.php">Išvalyti</a>
                 </form>
                 </div>
             </form>
@@ -99,6 +80,7 @@ if (isset($_SESSION['allOk'])) {
             <table>
                 <thead>
                     <tr>
+                        <th>Vartotojo ID</th>
                         <th>Banko sąskaita</th>
                         <th>Sąskaitos likutis</th>
                         <th>Valiuta</th>
@@ -106,12 +88,10 @@ if (isset($_SESSION['allOk'])) {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="tbody">
                     <?php
                         if (isset($_GET['sort'])) {
                             match($_GET['sort']) {
-                                // 'lastName_asc' => usort($vartotojai, fn($a, $b) => $a['lastName'] <=> $b['lastName']),
-                                // 'lastName_desc' => usort($vartotojai, fn($a, $b) => $b['lastName'] <=> $a['lastName']),
                                 'userId_asc' => usort($sukurtosSaskaitos, fn($a, $b) => $a['userId'] <=> $b['userId']),
                                 'userId_desc' => usort($sukurtosSaskaitos, fn($a, $b) => $b['userId'] <=> $a['userId']),
                                 'id_asc' => usort($sukurtosSaskaitos, fn($a, $b) => $a['saskaitosLikutis'] <=> $b['saskaitosLikutis']),
@@ -122,16 +102,21 @@ if (isset($_SESSION['allOk'])) {
                     ?>
                     <?php foreach ($sukurtosSaskaitos as $saskaita): ?>
                     <tr>
+                        <?php foreach ($vartotojai as $vartotojas): ?>
+                        <?php if ($vartotojas['userId'] == $saskaita['userId']): ?>
                         <td>
                             <div style="white-space: normal; text-align: left; color: <?= $saskaita['delete'] == true ? 'red'  : 'black' ?>;">
-                                <?php foreach ($vartotojai as $vartotojas): ?>
-                                <?php if ($vartotojas['userId'] == $saskaita['userId']): ?>
-                                    <span><b><?= $vartotojas['lastName'].' '.$vartotojas['firstName'] ?> Banko sąskaita</b></span>
-                                <?php endif ?>
-                                <?php endforeach ?>
+                                <span><b><?= $vartotojas['userId']?></b></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="white-space: normal; text-align: left; color: <?= $saskaita['delete'] == true ? 'red'  : 'black' ?>;">
+                                <span><b><?= $vartotojas['lastName'].' '.$vartotojas['firstName'] ?> Banko sąskaita</b></span>
                                 <span><?= $saskaita['saskaita'] ?></span>
                             </div>
                         </td>
+                        <?php endif ?>
+                        <?php endforeach ?>
                         <td><?= number_format($saskaita['saskaitosLikutis'] / 100, 2) ?></td>
                         <td><?= $saskaita['valiuta'] ?></td>
                         <td>
