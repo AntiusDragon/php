@@ -1,17 +1,62 @@
 [
     {
         "userId": 942675916,
-        "delete": true,
         "saskaita": "LT242024970614169210",
+        "saskaitosLikutis": 5000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur",
+        "delete": false
+    },
+    {
+        "userId": 354770720,
+        "saskaita": "LT24202445513896",
+        "saskaitosLikutis": 501000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur",
+        "delete": false
+    },
+    {
+        "userId": 327582538,
+        "saskaita": "LT24202480592147",
+        "saskaitosLikutis": 1000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur",
+        "delete": false
+    },
+    {
+        "userId": 302580511,
+        "saskaita": "LT24202453563871",
+        "saskaitosLikutis": 1001000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur",
+        "delete": false
+    },
+    {
+        "userId": 321011511,
+        "saskaita": "LT24202494503388",
+        "saskaitosLikutis": 1000,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur",
+        "delete": false
+    },
+    {
+        "userId": 942675916,
+        "delete": true,
+        "saskaita": "LT242024343716722026",
         "saskaitosLikutis": 0,
         "rezervuota": 0,
         "disponuojamasLikutis": 0,
         "valiuta": "Eur"
     },
     {
-        "userId": 354770720,
-        "delete": false,
-        "saskaita": "LT24202445513896",
+        "userId": 942675916,
+        "delete": true,
+        "saskaita": "LT242024878082578098",
         "saskaitosLikutis": 0,
         "rezervuota": 0,
         "disponuojamasLikutis": 0,
