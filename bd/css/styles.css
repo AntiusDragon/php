@@ -1,0 +1,16 @@
+.header {
+    align-items: center;
+    background-color: aqua;
+    display: flex;
+    height: 3rem;
+    justify-content: space-between;
+}
+.meniuBtnList {
+    margin: 0 5rem 0 0;
+    display: flex;
+    gap: 1rem;
+}
+.headerBtn {
+    width: 5rem;
+    padding: 0 1rem;
+}

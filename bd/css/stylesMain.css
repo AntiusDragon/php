@@ -1,0 +1,22 @@
+.main {
+    display: flex;
+    justify-content: space-between;
+    height: calc(100vh - 4rem);
+}
+.meniuList {
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+}
+.content {
+    display: flex;
+    background-color: chartreuse;
+    width: calc(100% - 30rem);
+}
+.infoList {
+    display: flex;
+    flex-direction: column;
+    background-color: coral;
+    width: 15rem;
+}
