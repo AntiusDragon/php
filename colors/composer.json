@@ -1,0 +1,16 @@
+{
+    "name": "aorus/colors",
+    "description": "Nice colors CRUD",
+    "autoload": {
+        "psr-4": {
+            "Colors\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "AntiusDragon",
+            "email": "antanasss@hotmail.com"
+        }
+    ],
+    "require": {}
+}
