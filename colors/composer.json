@@ -3,6 +3,7 @@
     "description": "Nice colors CRUD",
     "autoload": {
         "psr-4": {
+            "": "",
             "Colors\\": ""
         }
     },

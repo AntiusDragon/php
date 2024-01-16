@@ -11980,3 +11980,13 @@ h1, .h1 {
   color: blue;
   font-size: 2rem;
 }
+
+.sort-button {
+  background-color: transparent;
+  border: none;
+  color: black;
+  text-align: center;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+}
