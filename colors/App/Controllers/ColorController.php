@@ -3,6 +3,7 @@ namespace Colors\App\Controllers;
 
 use Colors\App\App;
 use App\DB\FileBase;
+use Colors\App\Message;
 
 class ColorController {
     public function index($request) {
@@ -38,26 +39,37 @@ class ColorController {
         $color = $request['color'] ?? null;
         $size = $request['size'] ?? null;
 
+        $colorTrim = ltrim($color, '#');
+
         // curl to color API here
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://www.thecolorapi.com/id?hex=$color",
+            CURLOPT_URL => "https://www.thecolorapi.com/id?hex=$colorTrim",
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_ENCODING => "",
+            // CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
         ]);
-        $response = curl_exec($curl);
+
+        $response = curl_exec($curl); // atsakymas gali trukti iki 30 sekundziu
+        if (false === $response) {
+            echo 'Curl error: ' . curl_error($ch);
+            die;
+        } else {
+            $response = json_decode($response);
+            $colorName = $response->name->value;
+        }
+        
         curl_close($curl);
-        $response = json_decode($response);
-        $colorName = $response->name->value;
         
         $writer = new FileBase('colors');
         $writer->create((object) [
             'color' => $color,
-            'size' => $size
+            'size' => $size,
+            'name' => $colorName ?? 'unknown'
         ]);
+        Message::get()->set('success', 'Color was created');
 
         return App::redirect('colors');
     }
@@ -65,6 +77,7 @@ class ColorController {
     public function destroy($id) {
         $writer = new FileBase('colors');
         $writer->delete($id);
+        Message::get()->set('info', 'Color was created');
 
         return App::redirect('colors');
     }
@@ -83,11 +96,34 @@ class ColorController {
         $color = $request['color'] ?? null;
         $size = $request['size'] ?? null;
 
+        $colorTrim = ltrim($color, '#');
+
+        // curl to color API here
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://www.thecolorapi.com/id?hex=$colorTrim",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+        ]);
+
+        $response = curl_exec($curl); // atsakymas gali trukti iki 30 sekundziu
+        if (false === $response) {
+            echo 'Curl error: ' . curl_error($ch);
+            die;
+        } else {
+            $response = json_decode($response);
+            $colorName = $response->name->value;
+        }
+        
+        curl_close($curl);
+
         $writer = new Filebase('colors');
         $writer->update($id, (object) [
             'color' => $color,
-            'size' => $size
+            'size' => $size,
+            'name' => $colorName ?? 'unknown'
         ]);
+        Message::get()->set('success', 'Color was created');
         return App::redirect('colors');
     }
 }
