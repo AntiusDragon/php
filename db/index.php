@@ -21,7 +21,7 @@ $sql = "
     SELECT id, name, height, type
     FROM trees
     -- WHERE type <> 'lapuotis' AND height > 0 -- '=' atvaizduoja tik lapuotis, '<>' atvirksciai OR kai norin kaudoti 2 kartu papari typa
-    ORDER BY type ASC, height DESC -- rusiavimas (DESC // i presinga puse), (ASC // pagal abecele)
+    -- ORDER BY type ASC, height DESC -- rusiavimas (DESC // i presinga puse), (ASC // pagal abecele)
     -- LIMIT 0, 3 -- 0 praleis nedaugiau kaip 3 atvaizduos
 ";
 
@@ -29,8 +29,23 @@ $stmt = $pdo->query($sql);
 
 $trees = $stmt->fetchAll();
 
+// SELECT AVG(Price)
+// FROM Products;
+
+$sql = "
+    SELECT AVG(height) AS average, COUNT(*) AS count
+    FROM trees
+";
+$stmt = $pdo->query($sql);
+
+$stat = $stmt->fetch();
+
+// $average => $stat pakeiciam jei yra daugiau
+
 // echo '<pre>';
 // print_r($trees);
+// print_r($average);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,28 +53,13 @@ $trees = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maria Crud Trees</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-top: 1px solid #ddd;
-        }
-        tr:hover {
-            background-color: #999;
-        }
-        th {
-            background-color: #0b0;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Trees</h1>
+    <h2>Avarage height: <?= $stat['average'] ?> m.</h2>
+    <h2>Total trees: <?= $stat['count'] ?> vnt.</h2>
     <table>
         <thead>
             <tr>
@@ -89,6 +89,34 @@ $trees = $stmt->fetchAll();
             <?php endforeach ?>
         </tbody>
     </table>
+
+    <div class="forms">
+        <form action="store.php" method="post">
+            <h2>Plant a tree</h2>
+            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="height" placeholder="Height">
+            <select name="type">
+                <option value="0">Pasirinkti</option>
+                <option value="lapuotis">Lapuotis</option>
+                <option value="spygliuotis">Spygliuotis</option>
+                <option value="palme">Palmė</option>
+            </select>
+            <button type="submit">Plant Tree</button>
+        </form>
+
+        <form action="destroy.php" method="post">
+            <h2>Cut a tree</h2>
+            <input type="text" name="id" placeholder="Id">
+            <button type="submit">Cut Tree</button>
+        </form>
+
+        <form action="update.php" method="post">
+            <h2>Grow a tree</h2>
+            <input type="text" name="id" placeholder="Id">
+            <input type="text" name="height" placeholder="Height">
+            <button type="submit">Grow</button>
+        </form>
+    </div>
     
 </body>
 </html>

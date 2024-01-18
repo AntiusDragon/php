@@ -3,7 +3,7 @@ namespace Colors\App;
 
 class Message {
     private static $message;
-    private $show;
+    private $show, $error = false;
 
     public static function get() {
         return self::$message ?? self::$message = new self;
@@ -21,9 +21,15 @@ class Message {
     }
 
     public function set($type, $message) {
+        $this->error = true;
         $_SESSION['message'] = [
             'text' => $message,
             'type' => $type
         ];
+    }
+
+    public function hasErrors() {
+        // return isset($this->show['type']) && $this->show['type'] === 'error';
+        return $this->error;
     }
 }
