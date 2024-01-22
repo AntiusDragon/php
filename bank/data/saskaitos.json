@@ -61,5 +61,14 @@
         "rezervuota": 0,
         "disponuojamasLikutis": 0,
         "valiuta": "Eur"
+    },
+    {
+        "userId": 773895568,
+        "delete": false,
+        "saskaita": "LT242024385515335584",
+        "saskaitosLikutis": 0,
+        "rezervuota": 0,
+        "disponuojamasLikutis": 0,
+        "valiuta": "Eur"
     }
 ]

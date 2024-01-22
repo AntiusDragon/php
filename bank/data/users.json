@@ -48,5 +48,15 @@
         "email": "98f87fd651@gmail.com",
         "password": "88ea39439e74fa27c09a4fc0bc8ebe6d00978392",
         "user": "user"
+    },
+    {
+        "userId": 773895568,
+        "firstName": "Antanas",
+        "lastName": "Urabanavicius",
+        "presonalCode": "39210191009",
+        "phone": "+37060807897",
+        "email": "braizytojas@hotmail.com",
+        "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+        "user": "user"
     }
 ]
