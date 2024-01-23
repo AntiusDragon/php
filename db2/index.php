@@ -51,6 +51,21 @@ if ('left' == $type) {
     ";
 }
 
+if ('right' == $type) {
+
+    // SELECT column_name(s)
+    // FROM table1
+    // RIGHT JOIN table2
+    // ON table1.column_name = table2.column_name;
+
+    $sql = "
+        SELECT c.id, p.id AS pid, name, number, client_id
+        FROM clients AS C
+        RIGHT JOIN phones AS p
+        ON c.id = p.client_id
+    ";
+}
+
 $stmt = $pdo->query($sql);
 
 $tableData = $stmt->fetchAll();
@@ -103,16 +118,29 @@ $tableData = $stmt->fetchAll();
     </table>
 
     <div class="forms">
+        <?php 
+        $joinLists = [
+            [
+                'lower' => "inner",
+                'upper' => 'INNER'
+            ],
+            [
+                'lower' => "left",
+                'upper' => 'LEFT'
+            ],
+            [
+                'lower' => "right",
+                'upper' => 'RIGHT'
+            ]
+            ];
+            foreach ($joinLists as $joinList): 
+        ?>
         <form>
-            <h2>INNER JOIN</h2>
-            <input type="hidden" name="type" Value="inner">
-            <button type="submit">INNER</button>
+            <h2><?= $joinList['upper'] ?> JOIN</h2>
+            <input type="hidden" name="type" value="<?= $joinList['lower'] ?>">
+            <button type="submit"><?= $joinList['upper'] ?></button>
         </form>
-        <form>
-            <h2>LEFT JOIN</h2>
-            <input type="hidden" name="type" Value="left">
-            <button type="submit">LEFT</button>
-        </form>
+        <?php endforeach ?>
     </div>
     
 </body>
