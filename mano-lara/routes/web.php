@@ -19,3 +19,15 @@ Route::get('/', function () {
 });
 
 Route::get('/bebras/miskinis/{color}/{size}', [ForestController::class, 'labas']);
+
+// zebras
+Route::get('/zebras', function () {
+    return 'Labas Zebras!';
+});
+
+Route::get('/count', [ForestController::class, 'showCount'])->name('count');
+Route::post('/count', [ForestController::class, 'count'])->name('do-count');
+
+Route::get('/squares', [ForestController::class, 'showSquares'])->name('squares');
+Route::post('/squares', [ForestController::class, 'squares'])->name('do-squares');
+Route::put('/squares', [ForestController::class, 'addSquares'])->name('add-squares');
