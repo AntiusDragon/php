@@ -8,55 +8,5 @@
         "email": "antanasss@yahoo.com",
         "password": "8a45c99fc694b0b16418f55afc22b82060fc1053",
         "user": "adminass"
-    },
-    {
-        "userId": 354770720,
-        "firstName": "Antanas",
-        "lastName": "Urabanavicius",
-        "presonalCode": "39210193817",
-        "phone": "+37060807896",
-        "email": "antanasss@hotmail.com",
-        "password": "8a45c99fc694b0b16418f55afc22b82060fc1053",
-        "user": "user"
-    },
-    {
-        "userId": 327582538,
-        "firstName": "&#@@*@!*&:\"\"\"",
-        "lastName": "&#@@*@!*&:\"\"\"",
-        "presonalCode": "33309240064",
-        "phone": "+37000000000",
-        "email": "@&*#$@&$@@@@423984923.129",
-        "password": "88ea39439e74fa27c09a4fc0bc8ebe6d00978392",
-        "user": "user"
-    },
-    {
-        "userId": 302580511,
-        "firstName": "Juozas",
-        "lastName": "Kandalionis",
-        "presonalCode": "36505125692",
-        "phone": "+37061883304",
-        "email": "it.gelmesta@gmail.com",
-        "password": "f7c3bc1d808e04732adf679965ccc34ca7ae3441",
-        "user": "user"
-    },
-    {
-        "userId": 321011511,
-        "firstName": "Asdff",
-        "lastName": "Asdffff",
-        "presonalCode": "48812308488",
-        "phone": "+37000000001",
-        "email": "98f87fd651@gmail.com",
-        "password": "88ea39439e74fa27c09a4fc0bc8ebe6d00978392",
-        "user": "user"
-    },
-    {
-        "userId": 773895568,
-        "firstName": "Antanas",
-        "lastName": "Urabanavicius",
-        "presonalCode": "39210191009",
-        "phone": "+37060807897",
-        "email": "braizytojas@hotmail.com",
-        "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
-        "user": "user"
     }
 ]
