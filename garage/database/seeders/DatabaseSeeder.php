@@ -24,6 +24,26 @@ class DatabaseSeeder extends Seeder
                 'surname' => $faker->lastName,
             ]);
         }
+
+        foreach (range(1, 100) as $i) {
+
+            $trucksModels = [
+                'Volvo',
+                'Man',
+                'Scania',
+                'Mercedes',
+                'Iveco',
+                'Renault',
+                'DAF',
+                'Mitsubishi',
+            ];
+
+            DB::table('trucks')->insert([
+                'brand' => $faker->randomElement($trucksModels),
+                'plate' => $faker->regexify('[A-Z]{3}-[0-9]{3}'),
+                'mechanic_id' => $faker->numberBetween(1, 20),
+            ]);
+        }
         
         DB::table('users')->insert([
             'name' => 'admin',

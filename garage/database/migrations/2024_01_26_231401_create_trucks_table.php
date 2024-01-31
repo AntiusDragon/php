@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('trucks', function (Blueprint $table) {
             $table->id();
-            $table->string('brand');
-            $table->string('plate');
-            $table->unsignedBigInteger('machanic_id')->nullable();
-            $table->foreign('machanic_id')->references('id')->on('mechanics');
+            $table->string('brand', 64);
+            $table->string('plate', 10);
+            $table->unsignedBigInteger('mechanic_id')->nullable();
+            $table->foreign('mechanic_id')->references('id')->on('mechanics');
             $table->timestamps();
         });
     }
