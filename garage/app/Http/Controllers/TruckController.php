@@ -6,18 +6,56 @@ use App\Models\Truck;
 use App\Models\Mechanic;
 use App\Http\Requests\StoreTruckRequest;
 use App\Http\Requests\UpdateTruckRequest;
+use Illuminate\Http\Request;
 
 class TruckController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $truck = Truck::all();
+        $sorts = Truck::getSorts();
+        $sortBy = $request->query('sort', '');
+        $perPageSelect = Truck::getPerPageSelect();
+        $perPage = (int) $request->query('per_page', 0);
+        $s = $request->query('s', ''); // tai ko ieškom
+        $trucks = Truck::query();
+
+        if ($s) {
+            $keywords = explode(' ', $s);
+            if (count($keywords) > 1) {
+                $trucks = $trucks->where(function ($query) use ($keywords) {
+                    foreach (range(0, 1) as $index) {
+                        $query->orWhere('brand', 'like', '%'.$keywords[$index].'%')
+                        ->where('plate', 'like', '%'.$keywords[1 - $index].'%');
+                    }
+                });
+            } else {
+                $trucks = $trucks
+                    ->where('brand', 'like', "%{$s}%")
+                    ->orWhere('plate', 'like', "%{$s}%");
+            }
+        }
+
+        $trucks = match($sortBy) {
+            'model_asc' => $trucks->orderBy('brand'),
+            'model_desc' => $trucks->orderByDesc('brand'),
+            default => $trucks,
+        };
+        if ($perPage > 0) {
+            $trucks = $trucks->paginate($perPage)->withQueryString();
+        } else {
+            $trucks = $trucks->get();
+        }
 
         return view('trucks.index', [
-            'trucks' => $truck,
+            'trucks' => $trucks,
+            'sorts' => $sorts,
+            'sortBy' => $sortBy,
+            'perPageSelect' => $perPageSelect,
+            'perPage' => $perPage,
+            's' => $s,
         ]);
     }
 
