@@ -15,12 +15,27 @@ class TruckController extends Controller
      */
     public function index(Request $request)
     {
+        $mechanics = Mechanic::orderBy('name')->get(); // Mechanikų sarašas
+
+        $allBrands = Truck::select('brand')->distinct()->orderBy('brand')->get()->pluck('brand')->toArray(); // Transporto sarašas
+
         $sorts = Truck::getSorts();
         $sortBy = $request->query('sort', '');
         $perPageSelect = Truck::getPerPageSelect();
         $perPage = (int) $request->query('per_page', 0);
         $s = $request->query('s', ''); // tai ko ieškom
+        $mechanicId = (int) $request->query('mechanic_id', 0); // Mechanikų sarašas
+        $brandId = $request->query('brand', ''); // Transporto sarašas
+
         $trucks = Truck::query();
+
+        if ($mechanicId > 0) { // Mechanikų sarašas
+            $trucks = $trucks->where('mechanic_id', $mechanicId);
+        }
+
+        if ($brandId !== '') { // Transporto sarašas
+            $trucks = $trucks->where('brand', $brandId);
+        }
 
         if ($s) {
             $keywords = explode(' ', $s);
@@ -56,18 +71,25 @@ class TruckController extends Controller
             'perPageSelect' => $perPageSelect,
             'perPage' => $perPage,
             's' => $s,
+            'mechanics' => $mechanics, // Mechanikų sarašas
+            'mechanicId' => $mechanicId, // Mechanikų sarašas
+            'brands' => $allBrands, // Transporto sarašas
+            'brandId' => $brandId, // Transporto sarašas
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $mechanics = Mechanic::all();
+        // $mechanics = Mechanic::all();
+        $trucks = Mechanic::all();
+        $mechanicId = (int) $request->query('mechanic_id', 0); // Filter perduodamas i create info0
 
         return view('trucks.create', [
-            'mechanics' => $mechanics,
+            'mechanics' => $trucks,
+            'mechanicId' => $mechanicId,  // Filter perduodamas i create info
         ]);
     }
 
@@ -78,7 +100,7 @@ class TruckController extends Controller
     {
         Truck::create($request->all());
 
-        return redirect()->route('trucks-index');
+        return redirect()->route('trucks-index')->with('ok', 'Sunkvežimis sėkmingai pridėtas.');
     }
 
     /**
@@ -111,7 +133,7 @@ class TruckController extends Controller
     {
         $truck->update($request->all());
 
-        return redirect()->route('trucks-index');
+        return redirect()->route('trucks-index')->with('ok', 'Sunkvežimis sėkmingai atnaujintas.');
     }
 
         /**
@@ -132,6 +154,6 @@ class TruckController extends Controller
     {
         $truck->delete();
 
-        return redirect()->route('trucks-index');
+        return redirect()->route('trucks-index')->with('info', 'Sunkvežimis buvo išvežtas į metalo laužą.');
     }
 }
