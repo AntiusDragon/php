@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MechanicController AS M;
 use App\Http\Controllers\TruckController AS T;
+use App\Http\Controllers\CompanyController AS C;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,16 @@ Route::prefix('trucks')->name('trucks-')->group(function () {
     Route::put('/{truck}', [T::class, 'update'])->name('update');
     Route::get('/{truck}/delete', [T::class, 'delete'])->name('delete');
     Route::delete('/{truck}', [T::class, 'destroy'])->name('destroy');
+});
+
+// Companies CRUD Group
+Route::prefix('companies')->name('companies-')->group(function () {
+    Route::get('/', [C::class, 'index'])->name('index');
+    // Route::get('/create', [C::class, 'create'])->name('create');
+    Route::post('/', [C::class, 'store'])->name('store');
+    Route::get('/list', [C::class, 'list'])->name('list');
+    Route::get('/{company}/delete', [C::class, 'delete'])->name('delete');
+    Route::delete('/{company}', [C::class, 'destroy'])->name('destroy');
 });
 
 // Authentication Routes

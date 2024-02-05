@@ -59,6 +59,13 @@
                                 </a>
                             </div>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('companies-index')}}">
+                                Įmonės
+                            </a>
+                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
