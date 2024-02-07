@@ -39,6 +39,20 @@
             <div class="card mt-5">
                 <div class="card-header">
                     <h2>Įmonių sąrašas</h2>
+                    <div class="container">
+                        <div class="row ">
+                            <div class="col-3">
+                                <div class="form-group mb-3">
+                                    <label class="m-2">Rūšiaviams</label>
+                                    <select class="form-select mt-2" data-sort-select>
+                                        @foreach ($sorts as $value => $sort)
+                                            <option value="{{$value}}">{{$sort}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body" data-list data-url="{{route('companies-list')}}">
 
@@ -49,6 +63,8 @@
     </div>
 </div>
 <section data-modal-delete></section>
+<section data-modal-edit></section>
+<section data-modal-show></section>
 @endsection
 
 @section('title', 'Įmonės')

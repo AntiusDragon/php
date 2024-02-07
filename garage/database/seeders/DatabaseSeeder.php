@@ -44,6 +44,18 @@ class DatabaseSeeder extends Seeder
                 'mechanic_id' => $faker->numberBetween(1, 20),
             ]);
         }
+
+        foreach (range(1, 53) as $i) {
+            $companyName = $faker->company;
+            $companyName = str_replace('"', '', $companyName);
+            $companyNameParts = explode(' ', $companyName);
+            $companyNameWithoutFirstWord = implode(' ', array_slice($companyNameParts, 1));
+ 
+            DB::table('companies')->insert([
+                'name' => $companyNameWithoutFirstWord,
+                'type' => $faker->companySuffix,
+            ]);
+        }
         
         DB::table('users')->insert([
             'name' => 'admin',

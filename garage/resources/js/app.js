@@ -3,6 +3,8 @@ import './bootstrap';
 
 console.log('Hello! I am app.js');
 
+let sortValue;
+
 const clearForm = form => {
     form.querySelectorAll('input').forEach(input => {
         input.value = '';
@@ -10,6 +12,25 @@ const clearForm = form => {
 }
 
 const destroyFromList = (url) => {
+    axios.delete(url)
+        .then(response => {
+            console.log(response.data);
+            getList();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+const updateFormList = (url, data) => {
+    axios.put(url, data)
+        .then(response => {
+            console.log(response.data);
+            getList();
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 
@@ -25,11 +46,49 @@ const deleteFromList = (url) => {
                 });
             });
             const destroy = section.querySelector('[data-destroy]');
-            destroy.querySelector('[data-destroy]').addEventListener('click', () => {
+            destroy.addEventListener('click', () => {
                 const url = destroy.dataset.url;
                 destroyFromList(url);
                 section.innerHTML = '';
-            })
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+const editFromList = (url) => {
+    axios.get (url)
+        .then(response => {
+            const section = document.querySelector('[data-modal-edit]');
+            section.innerHTML = response.data.html;
+            section.querySelectorAll('[data-close]').forEach(button => {
+                button.addEventListener('click', () => {
+                    section.innerHTML = '';
+                });
+            });
+            section.querySelector('[data-update]').addEventListener('click', (e) => {
+                const url = e.target.dataset.url;
+                const data = {};
+                section.querySelectorAll('input').forEach(input => {
+                    data[input.name] = input.value;
+                });
+                updateFormList(url, data);
+                section.innerHTML = ''; // iškvietus funkcija lentele uždaro
+            });
+        });
+}
+
+const showFromList = (url) => {
+    axios.get(url)
+        .then(response => {
+            const section = document.querySelector('[data-modal-show]');
+            section.innerHTML = response.data.html;
+            section.querySelectorAll('[data-close]').forEach(button => {
+                button.addEventListener('click', () => {
+                    section.innerHTML = '';
+                });
+            });
         })
         .catch(error => {
             console.error(error);
@@ -61,7 +120,9 @@ const getList = () => {
     const list = document.querySelector('[data-list]');
     const url = list.dataset.url;
 
-    axios.get(url)
+    const sortUrl = sortValue ? `${url}?sort=${sortValue}` : url;
+
+    axios.get(sortUrl)
         .then(response => {
             // console.log(response.data);
             list.innerHTML = response.data.html;
@@ -69,7 +130,7 @@ const getList = () => {
         })
         .catch(error => {
             console.error(error);
-    });
+        });
 }
 
 if (document.querySelector('[data-create-form]')) {
@@ -97,6 +158,15 @@ if (document.querySelector('[data-create-form]')) {
 
     if (document.querySelector('[data-list]')) {
         getList();
+    }
+
+    if (document.querySelector('[data-sort-select]')) {
+        const select = document.querySelector('[data-sort-select]');
+        select.addEventListener('change', e => {
+            // console.log(e.target.value);
+            sortValue = e.target.value;
+            getList();
+        })
     }
 
     // console.log('createForm:', url);
