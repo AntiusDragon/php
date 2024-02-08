@@ -22,7 +22,8 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|min:2|max:255', 
+            'name' => 'required|in:UAB, VšĮ, AB, MB, IĮ', 
         ];
     }
 }
