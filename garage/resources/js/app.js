@@ -5,31 +5,59 @@ console.log("Hello! I am app.js");
 
 let sortValue;
 
-const showErrors = (errors) => {
+const resetErrorBorders = (form) => {
+    form.querySelectorAll('input').forEach(input => {
+        input.classList.remove('border', 'border-danger');
+    });
+}
+
+const showOk = message => {
+    const section = document.querySelector('[data-ok]');
+    const div = document.createElement('div');
+    div.textContent = message;
+    section.appendChild(div);
+    const timerId = setTimeout(() => {
+        section.innerHTML = '';
+    }, 5000);
+    section.addEventListener('click', () => {
+        section.innerHTML = '';
+        clearTimeout(timerId);
+    });
+}
+
+const showErrors = (errors, where) => {
     const section = document.querySelector('[data-errors]');
     section.innerHTML = ''; // istrinam
     const ul = document.createElement('ul'); // sukreitinam dokumenta, taga ul
     section.appendChild(ul); // i sekcija idedam ul
-    for (let key in errors) { 
+    for (let key in errors) {
         const li = document.createElement('li'); // sukuriamas li tagas
         li.textContent = errors[key]; // sukuriame i pranesima
         ul.appendChild(li);
+        where.querySelector(`[name="${key}"]`).classList.add('border', 'border-danger'); // pažymi raudona laukeli jei nera teksto
     }
+    const timerId = setTimeout(() => {
+        section.innerHTML = '';
+        resetErrorBorders(where);
+    }, 5000);
+    section.addEventListener('click', () => { // automatinis pranesimo p[anaikinimas
+        section.innerHTML = '';
+        resetErrorBorders(where);
+    }, 5000);
     section.addEventListener('click', () => {
         section.innerHTML = '';
+        resetErrorBorders(where);
+        clearTimeout(timerId);
     });
-    setTimeout(() => { // automatinis pranesimo p[anaikinimas
-        section.innerHTML = '';
-    }, 5000);
 }
 
 const makeLinks = () => {
-    const links = document.querySelectorAll("[data-links] a");
-    links.forEach((link) => {
-        link.addEventListener("click", (e) => {
+    const links = document.querySelectorAll('[data-links] a');
+    links.forEach(link => {
+        link.addEventListener('click', e => {
             e.preventDefault();
             const url = e.target.href;
-            const pageNumber = url.split("=").pop();
+            const pageNumber = url.split('=').pop();
             getList(pageNumber);
 
             // console.log(pageNumber);
@@ -49,23 +77,25 @@ const destroyFromList = (url) => {
         .then((response) => {
             console.log(response.data);
             getList();
+            showOk(response.data.message);
         })
         .catch((error) => {
             console.error(error);
         });
 };
 
-const updateFormList = (url, data) => {
-    axios
-        .put(url, data)
-        .then((response) => {
+const updateFormList = (url, data, section) => {
+    axios.put(url, data)
+        .then(response => {
             console.log(response.data);
             getList();
+            showOk(response.data.message);
+            section.innerHTML = '';
         })
-        .catch((error) => {
-            console.error(error);
+        .catch(error => {
+            showErrors(error.response.data.errors, section);
         });
-};
+}
 
 const deleteFromList = (url) => {
     // console.log('Delete', url);
@@ -108,8 +138,7 @@ const editFromList = (url) => {
                 section.querySelectorAll("input").forEach((input) => {
                     data[input.name] = input.value;
                 });
-                updateFormList(url, data);
-                section.innerHTML = ""; // iškvietus funkcija lentele uždaro
+                updateFormList(url, data, section);
             });
     });
 };
@@ -153,7 +182,7 @@ const addEventsToList = () => {
 };
 
 const getList = (page = 0) => {
-    const list = document.querySelector("[data-list]");
+    const list = document.querySelector('[data-list]');
     const url = list.dataset.url;
 
     const sortUrl = sortValue ? `${url}?sort=${sortValue}` : url;
@@ -161,49 +190,47 @@ const getList = (page = 0) => {
     let pageUrl = sortUrl;
 
     if (sortValue) {
-        if (page > 0) {
+        if (page) {
             pageUrl = `${sortUrl}&page=${page}`;
-        }
+        } 
     } else {
         if (page) {
-            pageUrl = `${url}?page=${page}`;
+            pageUrl = `${sortUrl}?page=${page}`;
         }
     }
 
     axios.get(pageUrl)
-        .then((response) => {
+        .then(response => {
             // console.log(response.data);
             list.innerHTML = response.data.html;
             addEventsToList();
             makeLinks();
         })
-        .catch((error) => {
+        .catch(error => {
             console.error(error);
         });
 };
 
-if (document.querySelector("[data-create-form]")) {
-    const createForm = document.querySelector("[data-create-form]");
+if (document.querySelector('[data-create-form]')) {
+    const createForm = document.querySelector('[data-create-form]');
     const url = createForm.dataset.url;
-    const button = createForm.querySelector("button");
-    const inputs = createForm.querySelectorAll("input");
+    const button = createForm.querySelector('button');
+    const inputs = createForm.querySelectorAll('input');
 
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
         const data = {};
-        inputs.forEach((input) => {
+        inputs.forEach(input => {
             data[input.name] = input.value;
         });
-
-        axios
-            .post(url, data)
-            .then((response) => {
-                console.log(response.data);
+        axios.post(url, data)
+            .then(response => {
                 clearForm(createForm);
+                showOk(response.data.message);
                 getList();
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error(error);
-                showErrors(error.response.data.errors);
+                showErrors(error.response.data.errors, createForm);
             });
     });
 

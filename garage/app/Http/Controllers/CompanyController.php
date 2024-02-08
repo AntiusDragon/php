@@ -29,7 +29,7 @@ class CompanyController extends Controller
 
         //json respone
         return response()->json([
-            'message' => 'Įmonė sėkmingai sukurta!',
+            'message' => 'Jūs esate šaunuolis. Įmonė sėkmingai sukurta!',
             'id' => $id
         ]);
     }
@@ -89,7 +89,7 @@ class CompanyController extends Controller
         $company->update($request->all());
         
         return response()->json([
-            'message' => 'Įimonė sėkmingai atnaujinta!',
+            'message' => 'Jūs daugiau nei šaunuolis. Įmonė sėkmingai atnaujinta!'
         ]);
     }
 
@@ -97,7 +97,7 @@ class CompanyController extends Controller
     {
         $company->delete();
         return response()->json([
-            'message' => 'Įmonė sėkmingai ištrinta!',
+            'message' => 'Jums pavyko! Įmonė sėkmingai ištrinta!'
         ]);
     }
 }
