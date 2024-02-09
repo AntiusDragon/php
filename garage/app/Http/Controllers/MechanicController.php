@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mechanic;
+use App\Models\Photo;
 use App\Http\Requests\StoreMechanicRequest;
 use App\Http\Requests\UpdateMechanicRequest;
 use Illuminate\Http\Request;
@@ -91,7 +92,22 @@ class MechanicController extends Controller
      */
     public function store(StoreMechanicRequest $request)
     {
-        $mechanic = Mechanic::create($request->all());
+        dump($request->all());
+        
+        $mechanicId = Mechanic::create($request->all())->id;
+        
+        if ($request->photos) {
+            foreach ($request->photos as $photo) {
+                $originalName = $photo->getClientOriginalName();
+                $namePrefix = time();
+                $originalName = "{$namePrefix}-{$originalName}";
+                $photo->move(public_path().'/img/', $originalName);
+                Photo::create([
+                    'mechanic_id' => $mechanicId,
+                    'path' => $originalName,
+                ]);
+            }
+        }
 
         return redirect()->route('mechanics-index')->with('ok', 'Štai ir naujas mechanikas!');
     }
@@ -121,7 +137,53 @@ class MechanicController extends Controller
      */
     public function update(UpdateMechanicRequest $request, Mechanic $mechanic)
     {
-        $mechanic->update($request->all());
+        $mechanicPhotosIds = $mechanic->photos->pluck('id')->toArray();
+        // tikrinam, ar veikia nuotraukos trinimas
+        $photosIds = $request->photo_id ? $request->photo_id : [];
+        $toDelete = array_diff($mechanicPhotosIds, $photosIds);
+        // tikrinam, ar veikia nuotraukos pakeitimas
+        $photoFilesIndexes = array_keys($request->photos ?? []);
+        // tikrinam, ar veikia nuotraukos pakeitimas ir tuo pat metu seno trinimas
+        $photoIdsIndexes = array_keys($request->photo_id ?? []);
+        $toOvewrite = array_intersect($photoFilesIndexes, $photoIdsIndexes);
+        // tikrinam, ar veikia naujios nuotraukos pridejimas
+        $newPhotos = array_diff($photoFilesIndexes, $photoIdsIndexes);
+        // dd($newPhotos);
+
+        if ($toDelete) {
+            foreach ($toDelete as $photoId) {
+                $photo = Photo::find($photoId);
+                $photo->delete();
+                $path = public_path().'/img/'.$photo->path;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+        }
+        if ($toOvewrite) {
+            foreach ($toOvewrite as $index) {
+                $photo = Photo::find($request->photo_id[$index]);
+                $originalName = $request->photos[$index]->getClientOriginalName();
+                $namePrefix = time();
+                $originalName = "{$namePrefix}-{$originalName}";
+                $request->photos[$index]->move(public_path().'/img/', $originalName);
+                $photo->update([
+                    'path' => $originalName,
+                ]);
+            }
+        }
+        if ($newPhotos) {
+            foreach ($newPhotos as $index) {
+                $originalName = $request->photos[$index]->getClientOriginalName();
+                $namePrefix = time();
+                $originalName = "{$namePrefix}-{$originalName}";
+                $request->photos[$index]->move(public_path().'/img/', $originalName);
+                Photo::create([
+                    'mechanic_id' => $mechanic->id,
+                    'path' => $originalName,
+                ]);
+            }
+        }
 
         return redirect()->route('mechanics-index')->with('ok', 'Mechaniko duomenys dabar jau pakeisti.');
     }
