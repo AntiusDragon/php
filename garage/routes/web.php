@@ -22,14 +22,14 @@ Route::get('/', function () {
 
 // Mechanics CRUD Group
 Route::prefix('mechanics')->name('mechanics-')->group(function () {
-    Route::get('/', [M::class, 'index'])->name('index');
-    Route::get('/create', [M::class, 'create'])->name('create'); // kreito rodimas
-    Route::post('/', [M::class, 'store'])->name('store'); // storinimas
-    Route::get('/{mechanic}', [M::class, 'show'])->name('show'); // vieno mechaniko rodimas
-    Route::get('/{mechanic}/edit', [M::class, 'edit'])->name('edit'); // mechaniko editinimo rodimas
-    Route::put('/{mechanic}', [M::class, 'update'])->name('update'); // editinimas
-    Route::get('/{mechanic}/delete', [M::class, 'delete'])->name('delete'); // delete konfirmo rodimas
-    Route::delete('/{mechanic}', [M::class, 'destroy'])->name('destroy'); // istrina
+    Route::get('/', [M::class, 'index'])->middleware(['role:admin|animal|user'])->name('index');
+    Route::get('/create', [M::class, 'create'])->middleware(['role:admin|animal'])->name('create'); // kreito rodimas
+    Route::post('/', [M::class, 'store'])->middleware(['role:admin|animal'])->name('store'); // storinimas
+    Route::get('/{mechanic}', [M::class, 'show'])->middleware(['role:admin|animal|user'])->name('show'); // vieno mechaniko rodimas
+    Route::get('/{mechanic}/edit', [M::class, 'edit'])->middleware(['role:admin'])->name('edit'); // mechaniko editinimo rodimas
+    Route::put('/{mechanic}', [M::class, 'update'])->middleware(['role:admin'])->name('update'); // editinimas
+    Route::get('/{mechanic}/delete', [M::class, 'delete'])->middleware(['role:admin'])->name('delete'); // delete konfirmo rodimas
+    Route::delete('/{mechanic}', [M::class, 'destroy'])->middleware(['role:admin'])->name('destroy'); // istrina
 });
 
 // Trucks CRUD Group

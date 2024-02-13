@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@inject('role', 'App\Services\RolesService')
 
 @section('content')
 <div class="container">
@@ -70,7 +71,10 @@
                             <td>{{ $mechanic->name }}</td>
                             <td>{{ $mechanic->surname }}</td>
                             <td>
-                                <a class="btn btn-success m-1" href={{ route('mechanics-edit', $mechanic->id) }}>Redaguoti</a>
+                                {{-- {{$role->test}} --}}
+                                @if ($role->show('admin'))
+                                    <a class="btn btn-success m-1" href={{ route('mechanics-edit', $mechanic->id) }}>Redaguoti</a>
+                                @endif
                                 <a class="btn btn-danger m-1" href={{ route('mechanics-delete', $mechanic->id) }}>Atleisti [{{$mechanic->trucks()->count()}}]</a>
                                 <a class="btn btn-secondary m-1" href={{ route('mechanics-show', $mechanic->id) }}>Peržiūrėti</a>
                             </td>

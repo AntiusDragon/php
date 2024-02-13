@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 
 class MechanicController extends Controller
 {
-    
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // Privercia butinai prisiloginti
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     
     /**
      * Display a listing of the resource.
@@ -163,6 +163,13 @@ class MechanicController extends Controller
         if ($toOvewrite) {
             foreach ($toOvewrite as $index) {
                 $photo = Photo::find($request->photo_id[$index]);
+
+                //istrinam sena foto
+                $path = public_path().'/img/'.$photo->path;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+
                 $originalName = $request->photos[$index]->getClientOriginalName();
                 $namePrefix = time();
                 $originalName = "{$namePrefix}-{$originalName}";
@@ -204,8 +211,18 @@ class MechanicController extends Controller
      */
     public function destroy(Mechanic $mechanic)
     {
-        $mechanic->delete();
+        if ($mechanic->photos()->count()) { // ištrina nuotraukas
+            foreach ($mechanic->photos as $photo) {
+                $photo->delete();
+                $path = public_path().'/img/'.$photo->path;
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+        }
 
+        $mechanic->delete();
+        
         return redirect()->route('mechanics-index')->with('info', 'Liūdna informuoti, bet mechanikas atleistas iš darbo.');
     }
 }
