@@ -1,6 +1,7 @@
 import axios from "axios";
 import "./bootstrap";
 import './photos.js';
+import './mechanics.js';
 
 console.log("Hello! I am app.js");
 

@@ -99,7 +99,10 @@
                         <tr>
                             <td>{{ $truck->brand }}</td>
                             <td>{{ $truck->plate }}</td>
-                            <td>{{ $truck->mechanic->name }} {{ $truck->mechanic->surname }}</td>
+                            <td>
+                                {{ $truck->mechanics()->count() }}
+                                {{-- {{ $truck->mechanic->name }} {{ $truck->mechanic->surname }} --}}
+                            </td>
                             <td>
                                 <a class="btn btn-success m-1" href={{ route('trucks-edit', $truck->id) }}>Redaguoti</a>
                                 <a class="btn btn-danger m-1" href={{ route('trucks-delete', $truck->id) }}>Nurašyti</a>

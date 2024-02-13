@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('brand', 64);
             $table->string('plate', 10);
-            $table->unsignedBigInteger('mechanic_id')->nullable();
-            $table->foreign('mechanic_id')->references('id')->on('mechanics');
+            // $table->unsignedBigInteger('mechanic_id')->nullable();
+            // $table->foreign('mechanic_id')->references('id')->on('mechanics');
             $table->timestamps();
         });
     }

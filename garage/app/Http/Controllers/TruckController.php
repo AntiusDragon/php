@@ -30,7 +30,7 @@ class TruckController extends Controller
         $trucks = Truck::query();
 
         if ($mechanicId > 0) { // Mechanikų sarašas
-            $trucks = $trucks->where('mechanic_id', $mechanicId);
+            $trucks = Mechanic::find($mechanicId)->trucks();
         }
 
         if ($brandId !== '') { // Transporto sarašas
