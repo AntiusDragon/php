@@ -12,7 +12,7 @@ class Truck extends Model
     protected $fillable = [
         'brand',
         'plate',
-        'mechanic_id',
+        // 'mechanic_id',
     ];
 
     protected static $sorts = [

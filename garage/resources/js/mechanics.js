@@ -5,11 +5,19 @@ if (document.querySelector('[data-mechanic-create]')) {
     
     addButtons.addEventListener('click', _ => {
         const input = section.querySelector('[data-mechanic-inputs-clone] div').cloneNode(true);
-        input.querySelector('select').setAttribute('name', 'mechanics[]');
+        input.querySelector('select').setAttribute('name', 'mechanic_id[]');
         inputs.appendChild(input);
 
-        const removeButton = input.querySelector('button');
+        const removeButton = input.querySelector('data-mechanic-remove');
         removeButton.addEventListener('click', _ => {
+            input.remove();
+        });
+    });
+
+    const removeButtons = section.querySelectorAll('[data-mechanic-remove]');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', _ => {
+            const input = button.closest('.form-group');
             input.remove();
         });
     });
@@ -22,7 +30,7 @@ if (document.querySelector('[data-mechanic-edit]')) {
 
     addButtons.addEventListener('click', _ => {
         const input = section.querySelector('[data-mechanic-inputs-clone] div').cloneNode(true);
-        input.querySelector('input').setAttribute('name', 'mechanics[]');
+        input.querySelector('select').setAttribute('name', 'mechanics_id[]');
         inputs.appendChild(input);
 
         const removeButton = input.querySelector('button');
