@@ -51,7 +51,7 @@
                         </div> --}}
 
                         <div data-mechanic-inputs>
-                            @foreach ($truckMechanics as $mechanicId)
+                            @foreach (old('mechanic_id') ?? $truckMechanics as $mechanicId)
                             <div class="form-group mb-3">
                                 <label>Mechanikas</label>
                                 <div class="d-flex">
