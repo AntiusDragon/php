@@ -1,23 +1,26 @@
 body {
-    background-color: #333;
+    background-color: #141014;
 }
 main {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+
     h1 {
-        font-size: 2rem;
-        margin-bottom: 1em;
+        font-size: 3rem;
+        margin: 1em;
         color: #fff;
     }
+
     .bin {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         flex-direction: column;
         width: 100%;
-        max-width: 75rem;
+        max-width: 1200px;
+
         .colors {
             display: flex;
             justify-content: flex-start;
@@ -26,6 +29,7 @@ main {
             flex-wrap: wrap;
             gap: 1em;
             .color {
+                position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -33,12 +37,99 @@ main {
                 border-radius: 50%;
                 background-color: #000;
                 color: #fff;
-                font-size: 1.5rem;
+                font-size: 1.5em;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                z-index: 10;
+                .buttons {
+                    gap: 1em;
+                    padding: 1em;
+                    background-color: #ffffff;
+                    border-radius: 10px;
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    display: none;
+                    justify-content: space-around;
+                    align-items: center;
+
+                    p {
+                        font-size: 0.6em;
+                        color:#000;
+                    }
+                    
+                    .edit {
+                        padding: 10px 20px;
+                        background-color: darkgreen;
+                        color: #fff;
+                        border: none;
+                        cursor: pointer;
+                        font-size: 0.6em;
+                    }
+                    .delete {
+                        padding: 10px 20px;
+                        background-color: darkred;
+                        color: #fff;
+                        border: none;
+                        cursor: pointer;
+                        font-size: 0.6em;
+                    }
+                }
                 &:hover {
                     transform: scale(1.1);
+                    z-index: 100;
+                    .buttons {
+                        display: flex;
+                    }
                 }
+            }
+        }
+    }
+}
+
+.modal-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000055;
+    z-index: 100;
+    .modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 10px;
+        h2 {
+            font-size: 1.1em;
+            margin-bottom: 1em;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            margin-top: 1em;
+            .yes {
+                padding: 10px 20px;
+                background-color: darkred;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+            }
+            .no {
+                padding: 10px 20px;
+                background-color: darkgreen;
+                color: #fff;
+                border: none;
+                cursor: pointer;
             }
         }
     }
