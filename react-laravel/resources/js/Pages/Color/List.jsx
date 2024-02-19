@@ -1,32 +1,38 @@
-import { useContext } from "react";
-import { Data } from "./Data";
+import { useContext } from 'react';
+import { Data } from './Data';
 
 export default function List() {
 
-    const { colors, setDeleteColor } = useContext(Data);
+    const { colors, setDeleteColor, setEditColor, setCreateColor } = useContext(Data);
 
     return (
+        <>
         <div className="colors">
-            {colors.map((color) => {
-                return color.deleted ? null : (
-                    <div key={color.id}
-                        className="color"
-                        style={{ 
+            {
+                colors.map(color => {
+                    return color.deleted ? null : (
+                        <div key={color.id} className="color" style={{
                             backgroundColor: color.hex + '66',
                             border: '4px solid ' + color.hex,
-                            width: color.size + "px",
-                            height: color.size + "px",
+                            width: color.size + 'px',
+                            height: color.size + 'px',
+                            opacity: color.temp ? 0.2 : 1
                         }}>
-                        <div className="buttons">
-                            <button className="edit">Edit</button>
-                            <button className="delete" 
-                                onClick={_ => setDeleteColor(color)}
-                            >Delete</button>
+                            {!color.temp &&
+                            <div className="buttons">
+                                <p>Actions:</p>
+                                <button className="edit" onClick={_ => setEditColor(color)}>Edit</button>
+                                <button className="delete" onClick={_ => setDeleteColor(color)}>Delete</button>
+                            </div>
+                            }
+                            <p>{color.hex}</p>
                         </div>
-                        <p>{color.hex}</p>
-                    </div>
-                );
-            })}
+                    );
+                })
+            }
+
         </div>
+        <button className="create" onClick={_ => setCreateColor({hex: '#000000', size: 100})}>Create</button>
+        </>
     );
 }

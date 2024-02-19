@@ -32,7 +32,13 @@ class ColorController extends Controller
      */
     public function store(StoreColorRequest $request)
     {
-        //
+        sleep(3);
+        // abort(403, 'Unauthorized action.');
+        $id = Color::create($request->validated())->id;
+        return response()->json([
+            'message' => 'Success',
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -56,7 +62,11 @@ class ColorController extends Controller
      */
     public function update(UpdateColorRequest $request, Color $color)
     {
-        //
+        sleep(3);
+        // $color->update($request->validated());
+        return response()->json([
+            'message' => 'Success',
+        ]);
     }
 
     /**
